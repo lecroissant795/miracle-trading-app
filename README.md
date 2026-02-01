@@ -1,4 +1,4 @@
-# 🚀 Miracle Trading App
+# Miracle Trading App
 
 A modern, AI-powered trading portfolio dashboard built with React and Vite. This application provides real-time market insights and deep portfolio analysis using Google's Gemini AI.
 
@@ -7,7 +7,7 @@ A modern, AI-powered trading portfolio dashboard built with React and Vite. This
 ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
 ![Gemini AI](https://img.shields.io/badge/Gemini_AI-4285F4?logo=google-gemini&logoColor=white)
 
-## ✨ Features
+## Features
 
 - **Real-time Visualization**: Dynamic stock charts using Recharts.
 - **AI Market Insights**: Instant analysis of stock movements powered by Gemini AI.
@@ -22,7 +22,7 @@ Before you begin, ensure you have the following installed:
 - [npm](https://www.npmjs.com/)
 - A **Google Gemini API Key**. You can get one for free at [Google AI Studio](https://aistudio.google.com/).
 
-## 🚀 Getting Started
+## Getting Started
 
 Follow these steps to get the project up and running on your local machine:
 
@@ -51,7 +51,7 @@ npm run dev
 ```
 Once started, open [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal) in your browser.
 
-## 📦 Tech Stack
+## Tech Stack
 
 - **Frontend**: React 19, TypeScript, Vite
 - **Styling**: Vanilla CSS
@@ -59,10 +59,10 @@ Once started, open [http://localhost:5173](http://localhost:5173) (or the port s
 - **Charts**: Recharts
 - **Icons**: Lucide React
 
-## 🔒 Security Note
+## Security Note
 
 Never commit your `.env.local` file to GitHub. This file is already included in `.gitignore` to prevent your private API keys from being exposed.
 
-## 📜 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
