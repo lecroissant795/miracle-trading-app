@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowLeft, TrendingUp, TrendingDown, DollarSign, Activity, Globe, Clock, BrainCircuit, BarChart3, Share2, Star, MoreHorizontal, ArrowUpRight, Plus, Maximize2, FileText, LayoutList, Scale, Banknote } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowLeft, TrendingUp, TrendingDown, DollarSign, Activity, Globe, Clock, BarChart3, Share2, Star, MoreHorizontal, ArrowUpRight, Plus, Maximize2, FileText, LayoutList, Scale, Banknote } from 'lucide-react';
 import { Stock } from '../types';
 import StockChart from './StockChart';
 import Button from './Button';
 import OptionChainModal from './OptionChainModal';
 import FinancialsModal from './FinancialsModal';
-import { getStockInsight } from '../services/geminiService';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 interface StockDetailViewProps {
@@ -17,18 +16,8 @@ interface StockDetailViewProps {
 const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInvest }) => {
   const [timeRange, setTimeRange] = useState('1M');
   const [activeTab, setActiveTab] = useState<'OVERVIEW' | 'INCOME' | 'BALANCE' | 'CASHFLOW'>('OVERVIEW');
-  const [aiInsight, setAiInsight] = useState<string>('');
-  const [loadingAi, setLoadingAi] = useState(false);
   const [isOptionChainOpen, setIsOptionChainOpen] = useState(false);
   const [isFinancialsOpen, setIsFinancialsOpen] = useState(false);
-
-  useEffect(() => {
-    setLoadingAi(true);
-    getStockInsight(stock).then(insight => {
-        setAiInsight(insight);
-        setLoadingAi(false);
-    });
-  }, [stock]);
 
   const isPositive = stock.change >= 0;
 
@@ -153,36 +142,89 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
             <div className="lg:col-span-8 space-y-10">
                 
                 {/* AI Insight - Redesigned */}
-                <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-700 p-1 shadow-xl shadow-indigo-100">
-                    <div className="bg-white rounded-[22px] p-6 md:p-8 h-full relative z-10">
-                        <div className="flex items-start gap-4 mb-4">
-                            <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
-                                <BrainCircuit size={24} />
-                            </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-slate-900">Gemini Market Insight</h3>
-                                <p className="text-sm text-slate-500">AI-powered analysis based on recent trends</p>
-                            </div>
+                {/* Performance Dashboard - Replaces AI Insight */}
+                <section className="bg-white rounded-3xl border border-slate-200 p-6 md:p-8 shadow-sm">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
+                            <BarChart3 size={24} />
                         </div>
-                        <div className="pl-0 md:pl-[68px]">
-                            {loadingAi ? (
-                                <div className="space-y-2 animate-pulse">
-                                    <div className="h-4 bg-slate-100 rounded w-3/4"></div>
-                                    <div className="h-4 bg-slate-100 rounded w-full"></div>
-                                </div>
-                            ) : (
-                                <p className="text-slate-700 leading-relaxed text-lg">
-                                    "{aiInsight || "Analysis unavailable."}"
-                                </p>
-                            )}
-                            <div className="mt-4 flex gap-2">
-                                <span className="text-xs font-medium px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-lg">#Bullish</span>
-                                <span className="text-xs font-medium px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg">#Tech</span>
-                            </div>
+                        <div>
+                            <h3 className="text-lg font-bold text-slate-900">Performance Dashboard</h3>
+                            <p className="text-sm text-slate-500">Real-time trading data and ranges</p>
                         </div>
                     </div>
-                    {/* Decorative blurred blob behind */}
-                    <div className="absolute -top-20 -right-20 w-64 h-64 bg-indigo-400 rounded-full blur-3xl opacity-20 pointer-events-none"></div>
+
+                    <div className="space-y-8">
+                         {/* Ranges */}
+                         <div className="space-y-6">
+                            <div>
+                                <div className="flex justify-between text-sm font-medium text-slate-500 mb-2">
+                                    <span>Day Low</span>
+                                    <span className="text-slate-900 font-bold">Day Range</span>
+                                    <span>Day High</span>
+                                </div>
+                                <div className="flex items-center justify-between text-xs font-bold text-slate-900 mb-2">
+                                    <span>${stock.details?.dayRangeLow}</span>
+                                    <span>${stock.details?.dayRangeHigh}</span>
+                                </div>
+                                <div className="relative h-3 bg-slate-100 rounded-full overflow-hidden">
+                                    <div 
+                                        className="absolute top-0 bottom-0 bg-blue-500 rounded-full" 
+                                        style={{ 
+                                            left: `${(( (stock.price - (stock.details?.dayRangeLow || 0)) / ((stock.details?.dayRangeHigh || 1) - (stock.details?.dayRangeLow || 0)) ) * 100)}%`,
+                                            width: '12px',
+                                            transform: 'translateX(-50%)'
+                                        }}
+                                    ></div>
+                                     {/* Fill bar for visualization context if needed, or just the dot marker */}
+                                     {/* Let's do a filled range bar instead of just a dot for better visual */}
+                                     <div 
+                                        className="h-full bg-blue-100 w-full absolute top-0 left-0"
+                                     ></div>
+                                      <div 
+                                        className="h-full bg-blue-500 absolute top-0 left-0 transition-all duration-1000"
+                                        style={{ width: `${Math.min(100, Math.max(0, ((stock.price - (stock.details?.dayRangeLow || 0)) / ((stock.details?.dayRangeHigh || 1) - (stock.details?.dayRangeLow || 0))) * 100))}%` }}
+                                     ></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div className="flex justify-between text-sm font-medium text-slate-500 mb-2">
+                                    <span>52W Low</span>
+                                    <span className="text-slate-900 font-bold">52 Week Range</span>
+                                    <span>52W High</span>
+                                </div>
+                                <div className="flex items-center justify-between text-xs font-bold text-slate-900 mb-2">
+                                    <span>${stock.details?.yearRangeLow}</span>
+                                    <span>${stock.details?.yearRangeHigh}</span>
+                                </div>
+                                <div className="relative h-3 bg-slate-100 rounded-full overflow-hidden">
+                                     <div 
+                                        className="h-full bg-indigo-500 absolute top-0 left-0 transition-all duration-1000"
+                                        style={{ width: `${Math.min(100, Math.max(0, ((stock.price - (stock.details?.yearRangeLow || 0)) / ((stock.details?.yearRangeHigh || 1) - (stock.details?.yearRangeLow || 0))) * 100))}%` }}
+                                     ></div>
+                                </div>
+                            </div>
+                         </div>
+
+                         {/* Mini Stats Grid */}
+                         <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-100">
+                             <div className="p-4 bg-slate-50 rounded-2xl text-center">
+                                 <div className="text-xs text-slate-500 font-medium mb-1">Open</div>
+                                 <div className="text-lg font-bold text-slate-900">${(stock.price * 0.99).toFixed(2)}</div>
+                             </div>
+                             <div className="p-4 bg-slate-50 rounded-2xl text-center">
+                                 <div className="text-xs text-slate-500 font-medium mb-1">Prev Close</div>
+                                 <div className="text-lg font-bold text-slate-900">${stock.details?.previousClose}</div>
+                             </div>
+                             <div className="p-4 bg-slate-50 rounded-2xl text-center">
+                                 <div className="text-xs text-slate-500 font-medium mb-1">Vol / Avg</div>
+                                 <div className="text-lg font-bold text-slate-900">
+                                     {stock.details?.volume ? (stock.details.volume / 1000000).toFixed(1) + 'M' : 'N/A'}
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
                 </section>
 
                 {/* About Section */}
