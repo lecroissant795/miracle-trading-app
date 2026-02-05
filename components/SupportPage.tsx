@@ -17,11 +17,12 @@ import Logo from './Logo';
 import Footer from './Footer';
 
 interface SupportPageProps {
-  onNavigate: (view: any) => void;
+  onNavigate: (view: any, category?: string) => void;
+  isLoggedIn?: boolean;
   netWorth: number;
 }
 
-const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
+const SupportPage: React.FC<SupportPageProps> = ({ onNavigate, isLoggedIn }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const topics = [
@@ -79,7 +80,7 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
               Home
             </button>
             <button
-              onClick={() => onNavigate('DASHBOARD')}
+              onClick={() => onNavigate(isLoggedIn ? 'DASHBOARD' : 'MARKET_EXPLORER')}
               className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors"
             >
               Market
@@ -98,10 +99,21 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
             </button>
           </div>
 
-          <div className="flex items-center gap-4">
-            <Button onClick={() => onNavigate('DASHBOARD')} className="px-6 py-2.5 rounded-full">
-              Go to Dashboard
-            </Button>
+          <div className="flex items-center gap-3">
+            {isLoggedIn ? (
+              <Button onClick={() => onNavigate('DASHBOARD')} className="px-6 py-2.5 rounded-full">
+                Go to Dashboard
+              </Button>
+            ) : (
+              <>
+                <button onClick={() => onNavigate('AUTH', 'SIGNUP')} className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors px-4 py-2">
+                  Sign in
+                </button>
+                <Button onClick={() => onNavigate('AUTH', 'LOGIN')} className="px-6 py-2.5 rounded-full">
+                  Log in
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </nav>
@@ -359,7 +371,7 @@ const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
         </div>
       </main>
 
-      <Footer onNavigate={onNavigate} />
+      <Footer onNavigate={onNavigate} isLoggedIn={isLoggedIn} />
     </div>
   );
 };

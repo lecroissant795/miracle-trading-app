@@ -7,13 +7,14 @@ import Button from './Button';
 import { Stock } from '../types';
 
 interface StockDetailPageProps {
-  onNavigate: (view: any) => void;
+  onNavigate: (view: any, category?: string) => void;
+  isLoggedIn?: boolean;
   stock: Stock;
   onBack: () => void;
   onInvest: (side?: 'BUY' | 'SELL') => void;
 }
 
-const StockDetailPage: React.FC<StockDetailPageProps> = ({ onNavigate, stock, onBack, onInvest }) => {
+const StockDetailPage: React.FC<StockDetailPageProps> = ({ onNavigate, isLoggedIn, stock, onBack, onInvest }) => {
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 flex flex-col">
       
@@ -26,15 +27,26 @@ const StockDetailPage: React.FC<StockDetailPageProps> = ({ onNavigate, stock, on
 
             <div className="hidden md:flex items-center gap-8">
                 <button onClick={() => onNavigate('LANDING')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Home</button>
-                <button onClick={() => onNavigate('MARKET_EXPLORER')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Market</button>
+                <button onClick={() => onNavigate(isLoggedIn ? 'DASHBOARD' : 'MARKET_EXPLORER')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Market</button>
                 <button onClick={() => onNavigate('PORTFOLIO')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Portfolio</button>
                 <button onClick={() => onNavigate('SUPPORT_PUBLIC')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Support</button>
             </div>
 
-             <div className="flex items-center gap-4">
-                <Button onClick={() => onNavigate('DASHBOARD')} className="px-6 py-2.5 rounded-full">
-                    Go to Dashboard
-                </Button>
+             <div className="flex items-center gap-3">
+                {isLoggedIn ? (
+                    <Button onClick={() => onNavigate('DASHBOARD')} className="px-6 py-2.5 rounded-full">
+                        Go to Dashboard
+                    </Button>
+                ) : (
+                    <>
+                        <button onClick={() => onNavigate('AUTH', 'SIGNUP')} className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors px-4 py-2">
+                            Sign in
+                        </button>
+                        <Button onClick={() => onNavigate('AUTH', 'LOGIN')} className="px-6 py-2.5 rounded-full">
+                            Log in
+                        </Button>
+                    </>
+                )}
             </div>
         </div>
       </nav>
@@ -50,7 +62,7 @@ const StockDetailPage: React.FC<StockDetailPageProps> = ({ onNavigate, stock, on
         </div>
       </div>
 
-      <Footer onNavigate={onNavigate} />
+      <Footer onNavigate={onNavigate} isLoggedIn={isLoggedIn} />
     </div>
   );
 };

@@ -3,10 +3,11 @@ import { Mail, MapPin, Facebook, Instagram, Youtube, Send } from 'lucide-react';
 import Logo from './Logo';
 
 interface FooterProps {
-  onNavigate: (view: any) => void;
+  onNavigate: (view: any, category?: string) => void;
+  isLoggedIn?: boolean;
 }
 
-const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+const Footer: React.FC<FooterProps> = ({ onNavigate, isLoggedIn }) => {
   return (
     <footer className="bg-slate-50 text-slate-900 pt-16 pb-10 px-6 mt-0 border-t border-slate-200">
       <div className="max-w-7xl mx-auto space-y-12">
@@ -47,7 +48,7 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <h4 className="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">Platform</h4>
             <ul className="space-y-2 text-sm text-slate-500">
               <li><button onClick={() => onNavigate('LANDING')} className="hover:text-slate-50 transition-colors text-left">Home</button></li>
-              <li><button onClick={() => onNavigate('DASHBOARD')} className="hover:text-slate-50 transition-colors text-left">Market</button></li>
+              <li><button onClick={() => onNavigate(isLoggedIn ? 'DASHBOARD' : 'MARKET_EXPLORER')} className="hover:text-slate-50 transition-colors text-left">Market</button></li>
               <li><button onClick={() => onNavigate('PORTFOLIO')} className="hover:text-slate-50 transition-colors text-left">Portfolio</button></li>
             </ul>
           </div>

@@ -6,11 +6,12 @@ import Footer from './Footer';
 import Button from './Button';
 
 interface ListingPageProps {
-  onNavigate: (view: any) => void;
+  onNavigate: (view: any, category?: string) => void;
+  isLoggedIn?: boolean;
   onSelectStock: (symbol: string) => void;
 }
 
-const ListingPage: React.FC<ListingPageProps> = ({ onNavigate, onSelectStock }) => {
+const ListingPage: React.FC<ListingPageProps> = ({ onNavigate, isLoggedIn, onSelectStock }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -27,15 +28,26 @@ const ListingPage: React.FC<ListingPageProps> = ({ onNavigate, onSelectStock }) 
 
             <div className="hidden md:flex items-center gap-8">
                 <button onClick={() => onNavigate('LANDING')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Home</button>
-                <button onClick={() => onNavigate('MARKET_EXPLORER')} className="text-sm font-semibold text-blue-600 transition-colors">Market</button>
+                <button onClick={() => onNavigate(isLoggedIn ? 'DASHBOARD' : 'MARKET_EXPLORER')} className="text-sm font-semibold text-blue-600 transition-colors">Market</button>
                 <button onClick={() => onNavigate('PORTFOLIO')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Portfolio</button>
                 <button onClick={() => onNavigate('SUPPORT_PUBLIC')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Support</button>
             </div>
 
-             <div className="flex items-center gap-4">
-                <Button onClick={() => onNavigate('DASHBOARD')} className="px-6 py-2.5 rounded-full">
-                    Go to Dashboard
-                </Button>
+             <div className="flex items-center gap-3">
+                {isLoggedIn ? (
+                    <Button onClick={() => onNavigate('DASHBOARD')} className="px-6 py-2.5 rounded-full">
+                        Go to Dashboard
+                    </Button>
+                ) : (
+                    <>
+                        <button onClick={() => onNavigate('AUTH', 'SIGNUP')} className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors px-4 py-2">
+                            Sign in
+                        </button>
+                        <Button onClick={() => onNavigate('AUTH', 'LOGIN')} className="px-6 py-2.5 rounded-full">
+                            Log in
+                        </Button>
+                    </>
+                )}
             </div>
         </div>
       </nav>
@@ -45,7 +57,7 @@ const ListingPage: React.FC<ListingPageProps> = ({ onNavigate, onSelectStock }) 
           <ListingView onSelectStock={onSelectStock} />
       </div>
 
-      <Footer onNavigate={onNavigate} />
+      <Footer onNavigate={onNavigate} isLoggedIn={isLoggedIn} />
     </div>
   );
 };

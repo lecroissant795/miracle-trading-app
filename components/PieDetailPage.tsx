@@ -6,7 +6,8 @@ import Footer from './Footer';
 import { Pie as PieType, Stock } from '../types';
 
 interface PieDetailPageProps {
-  onNavigate: (view: any) => void;
+  onNavigate: (view: any, category?: string) => void;
+  isLoggedIn?: boolean;
   pie: PieType;
   stocks: Stock[];
   onBack: () => void;
@@ -16,6 +17,7 @@ interface PieDetailPageProps {
 
 const PieDetailPage: React.FC<PieDetailPageProps> = ({ 
   onNavigate, 
+  isLoggedIn,
   pie,
   stocks,
   onBack,
@@ -34,15 +36,26 @@ const PieDetailPage: React.FC<PieDetailPageProps> = ({
 
             <div className="hidden md:flex items-center gap-8">
                 <button onClick={() => onNavigate('LANDING')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Home</button>
-                <button onClick={() => onNavigate('DASHBOARD')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Market</button>
+                <button onClick={() => onNavigate(isLoggedIn ? 'DASHBOARD' : 'MARKET_EXPLORER')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Market</button>
                 <button onClick={() => onNavigate('PORTFOLIO')} className="text-sm font-semibold text-blue-600 transition-colors">Portfolio</button>
                 <button onClick={() => onNavigate('SUPPORT')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Support</button>
             </div>
 
-            <div className="flex items-center gap-4">
-                <Button onClick={() => onNavigate('DASHBOARD')} className="px-6 py-2.5 rounded-full">
-                    Go to Dashboard
-                </Button>
+            <div className="flex items-center gap-3">
+                {isLoggedIn ? (
+                    <Button onClick={() => onNavigate('DASHBOARD')} className="px-6 py-2.5 rounded-full">
+                        Go to Dashboard
+                    </Button>
+                ) : (
+                    <>
+                        <button onClick={() => onNavigate('AUTH', 'SIGNUP')} className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors px-4 py-2">
+                            Sign in
+                        </button>
+                        <Button onClick={() => onNavigate('AUTH', 'LOGIN')} className="px-6 py-2.5 rounded-full">
+                            Log in
+                        </Button>
+                    </>
+                )}
             </div>
         </div>
       </nav>
@@ -58,7 +71,7 @@ const PieDetailPage: React.FC<PieDetailPageProps> = ({
           />
       </div>
 
-      <Footer onNavigate={onNavigate} />
+      <Footer onNavigate={onNavigate} isLoggedIn={isLoggedIn} />
     </div>
   );
 };

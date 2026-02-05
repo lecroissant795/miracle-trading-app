@@ -399,7 +399,7 @@ const App: React.FC = () => {
   };
 
   if (view === 'LANDING') {
-      return <LandingPage onNavigate={handleNavigation} />;
+      return <LandingPage onNavigate={handleNavigation} isLoggedIn={isLoggedIn} />;
   }
 
   if (view === 'AUTH') {
@@ -464,6 +464,7 @@ const App: React.FC = () => {
     return (
         <ListingPage 
             onNavigate={handleNavigation}
+            isLoggedIn={isLoggedIn}
             onSelectStock={(symbol) => {
                 const stock = getStockData(symbol);
                 if (stock) {
@@ -479,6 +480,7 @@ const App: React.FC = () => {
       return (
           <StockDetailPage 
             onNavigate={handleNavigation}
+            isLoggedIn={isLoggedIn}
             stock={selectedStock}
             onBack={() => setView('MARKET_EXPLORER')}
             onInvest={() => setView('AUTH')}
@@ -490,6 +492,7 @@ const App: React.FC = () => {
       return (
           <SupportPage 
             onNavigate={handleNavigation}
+            isLoggedIn={isLoggedIn}
             netWorth={netWorth}
           />
       );
@@ -497,6 +500,7 @@ const App: React.FC = () => {
     return (
         <PieDetailPage 
            onNavigate={handleNavigation}
+           isLoggedIn={isLoggedIn}
            pie={selectedPie} 
            stocks={MOCK_STOCKS}
            onBack={() => setView('PORTFOLIO')} 

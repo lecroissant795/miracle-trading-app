@@ -7,10 +7,11 @@ import Logo from './Logo';
 import Footer from './Footer';
 
 interface LandingPageProps {
-  onNavigate: (view: any) => void;
+  onNavigate: (view: any, category?: string) => void;
+  isLoggedIn?: boolean;
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
+const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => {
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900">
       
@@ -25,7 +26,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             {/* Middle Links (Pill Shape) */}
             <div className="hidden md:flex items-center bg-slate-100/80 px-1.5 py-1.5 rounded-full">
                 <button onClick={() => onNavigate('LANDING')} className="px-6 py-2 text-sm font-semibold text-slate-900 bg-white shadow-sm rounded-full transition-all">Home</button>
-                <button onClick={() => onNavigate('DASHBOARD')} className="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Market</button>
+                <button onClick={() => onNavigate(isLoggedIn ? 'DASHBOARD' : 'MARKET_EXPLORER')} className="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Market</button>
                 <button onClick={() => onNavigate('PORTFOLIO')} className="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Portfolio</button>
                 <button onClick={() => onNavigate('SUPPORT_PUBLIC')} className="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Support</button>
             </div>
