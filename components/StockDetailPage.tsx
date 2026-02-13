@@ -5,6 +5,8 @@ import Logo from './Logo';
 import Footer from './Footer';
 import Button from './Button';
 import { Stock } from '../types';
+import LanguageSelector from './LanguageSelector';
+import { useTranslation } from '../services/LanguageContext';
 
 interface StockDetailPageProps {
   onNavigate: (view: any, category?: string) => void;
@@ -15,6 +17,7 @@ interface StockDetailPageProps {
 }
 
 const StockDetailPage: React.FC<StockDetailPageProps> = ({ onNavigate, isLoggedIn, stock, onBack, onInvest }) => {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900 flex flex-col">
       
@@ -26,24 +29,25 @@ const StockDetailPage: React.FC<StockDetailPageProps> = ({ onNavigate, isLoggedI
             </div>
 
             <div className="hidden md:flex items-center gap-8">
-                <button onClick={() => onNavigate('LANDING')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Home</button>
-                <button onClick={() => onNavigate(isLoggedIn ? 'DASHBOARD' : 'MARKET_EXPLORER')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Market</button>
-                <button onClick={() => onNavigate('PORTFOLIO')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Portfolio</button>
-                <button onClick={() => onNavigate('SUPPORT_PUBLIC')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">Support</button>
+                <button onClick={() => onNavigate('LANDING')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">{t.nav.home}</button>
+                <button onClick={() => onNavigate(isLoggedIn ? 'DASHBOARD' : 'MARKET_EXPLORER')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">{t.nav.market}</button>
+                <button onClick={() => onNavigate('PORTFOLIO')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">{t.nav.portfolio}</button>
+                <button onClick={() => onNavigate('SUPPORT_PUBLIC')} className="text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">{t.nav.support}</button>
             </div>
 
              <div className="flex items-center gap-3">
+                <LanguageSelector />
                 {isLoggedIn ? (
                     <Button onClick={() => onNavigate('DASHBOARD')} className="px-6 py-2.5 rounded-full">
-                        Go to Dashboard
+                        {t.nav.dashboard}
                     </Button>
                 ) : (
                     <>
                         <button onClick={() => onNavigate('AUTH', 'SIGNUP')} className="text-sm font-semibold text-slate-600 hover:text-blue-600 transition-colors px-4 py-2">
-                            Sign in
+                            {t.nav.signin}
                         </button>
                         <Button onClick={() => onNavigate('AUTH', 'LOGIN')} className="px-6 py-2.5 rounded-full">
-                            Log in
+                            {t.nav.login}
                         </Button>
                     </>
                 )}

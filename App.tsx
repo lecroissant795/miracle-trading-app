@@ -31,6 +31,7 @@ import AuthPage from './components/AuthPage';
 import VerificationModal from './components/VerificationModal';
 import { getPortfolioAdvice } from './services/geminiService';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { LanguageProvider } from './services/LanguageContext';
 
 // --- Mock Data ---
 const MOCK_DETAILS: StockDetails = {
@@ -170,6 +171,14 @@ const MIN_SIDEBAR_WIDTH = 80;
 const COLLAPSED_SIDEBAR_WIDTH = 96;
 
 const App: React.FC = () => {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
+  );
+};
+
+const AppContent: React.FC = () => {
   const [view, setView] = useState<ViewState>('LANDING');
   const [authMode, setAuthMode] = useState<'LOGIN' | 'SIGNUP'>('LOGIN');
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);

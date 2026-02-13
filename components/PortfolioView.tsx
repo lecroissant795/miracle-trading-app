@@ -6,6 +6,7 @@ import Button from './Button';
 import StockChart from './StockChart';
 import PortfolioPieChart from './PortfolioPieChart';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { useTranslation } from '../services/LanguageContext';
 
 interface PortfolioViewProps {
   portfolio: Portfolio;
@@ -57,6 +58,7 @@ const PortfolioView: React.FC<PortfolioViewProps> = ({
   netWorth,
   investedValue,
 }) => {
+  const { t } = useTranslation();
   const getStockData = (symbol: string) => stocks.find((s) => s.symbol === symbol) || stocks[0];
 
   const equityValue = investedValue;
@@ -115,8 +117,8 @@ const PortfolioView: React.FC<PortfolioViewProps> = ({
       <div className="max-w-7xl mx-auto space-y-8">
         <header className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-900">Portfolio</h1>
-            <p className="text-sm text-slate-500 mt-1">Overview of your investments, performance and risk.</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-900">{t.portfolio.investmentPortfolio}</h1>
+            <p className="text-sm text-slate-500 mt-1">{t.portfolio.detailedView}</p>
           </div>
         </header>
 
@@ -128,7 +130,7 @@ const PortfolioView: React.FC<PortfolioViewProps> = ({
           <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm flex flex-col justify-between">
             <div className="flex items-center gap-2 mb-6">
               <PieChartIcon size={18} className="text-slate-400" />
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Investment Portfolio</span>
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">{t.portfolio.investmentPortfolio}</span>
             </div>
 
             <div className="flex flex-col xl:flex-row items-center gap-8 xl:gap-10 h-full">
@@ -140,7 +142,7 @@ const PortfolioView: React.FC<PortfolioViewProps> = ({
               {/* Stats Side */}
               <div className="flex-1 w-full max-w-xl">
                   <div className="mb-6">
-                       <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Total Net Worth</div>
+                       <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">{t.portfolio.totalNetWorth}</div>
                        <div className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">
                           ${netWorth.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                        </div>
@@ -148,11 +150,11 @@ const PortfolioView: React.FC<PortfolioViewProps> = ({
 
                   <div className="grid grid-cols-2 gap-4 mb-4">
                        <div className="bg-blue-50 rounded-2xl p-4 border border-blue-100/50">
-                            <div className="text-[10px] font-bold text-blue-600 uppercase mb-1">Invested</div>
+                            <div className="text-[10px] font-bold text-blue-600 uppercase mb-1">{t.portfolio.invested}</div>
                             <div className="text-xl font-bold text-slate-900">${investedValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}</div>
                        </div>
                        <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-100/50">
-                            <div className="text-[10px] font-bold text-emerald-600 uppercase mb-1">Cash</div>
+                            <div className="text-[10px] font-bold text-emerald-600 uppercase mb-1">{t.portfolio.cash}</div>
                             <div className="text-xl font-bold text-slate-900">${portfolio.cashBalance.toLocaleString(undefined, { maximumFractionDigits: 0 })}</div>
                        </div>
                   </div>
@@ -168,7 +170,7 @@ const PortfolioView: React.FC<PortfolioViewProps> = ({
           {/* My pies card */}
           <div className="bg-white rounded-3xl p-6 md:p-8 border border-slate-100 shadow-sm flex flex-col h-full">
             <div className="flex items-center justify-between mb-4">
-                 <h2 className="text-base font-bold text-slate-900">My Pies</h2>
+                 <h2 className="text-base font-bold text-slate-900">{t.portfolio.myPies}</h2>
                  {pies.length > 0 && (
                      <button className="text-slate-400 hover:text-slate-600">
                          <MoreHorizontal size={20} />
@@ -228,7 +230,7 @@ const PortfolioView: React.FC<PortfolioViewProps> = ({
                     onClick={onCreatePie}
                     className="w-full py-3.5 rounded-2xl border-2 border-dashed border-slate-200 text-slate-400 font-bold hover:border-blue-300 hover:text-blue-600 transition-all flex items-center justify-center gap-2 mt-2 text-sm"
                 >
-                    <PieChartIcon size={16} /> New Pie
+                    <PieChartIcon size={16} /> {t.portfolio.createPie}
                 </button>
               </div>
             )}
@@ -270,8 +272,8 @@ const PortfolioView: React.FC<PortfolioViewProps> = ({
           <div className="bg-white rounded-3xl p-6 md:p-7 border border-slate-100 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-base font-semibold text-slate-900">Portfolio performance</h2>
-                <p className="text-xs text-slate-400">Last 30 sessions · vs selected benchmark</p>
+                <h2 className="text-base font-semibold text-slate-900">{t.portfolio.performance}</h2>
+                <p className="text-xs text-slate-400">{t.portfolio.last30Sessions}</p>
               </div>
               <div className="flex gap-2 text-xs bg-slate-50 rounded-xl p-1">
                 <button
@@ -376,20 +378,20 @@ const PortfolioView: React.FC<PortfolioViewProps> = ({
             </div>
             <div className="flex gap-6 text-sm">
               <div>
-                <div className="text-[11px] uppercase text-slate-400 font-semibold">Total equity</div>
+                <div className="text-[11px] uppercase text-slate-400 font-semibold">{t.portfolio.totalEquity}</div>
                 <div className="font-semibold text-slate-900">
                   ${equityValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
                 </div>
               </div>
               <div>
-                <div className="text-[11px] uppercase text-slate-400 font-semibold">Total return</div>
+                <div className="text-[11px] uppercase text-slate-400 font-semibold">{t.portfolio.return}</div>
                 <div className="font-semibold text-emerald-500">
                   {totalReturnPercent >= 0 ? '+' : ''}
                   {totalReturnPercent.toFixed(2)}%
                 </div>
               </div>
               <div>
-                <div className="text-[11px] uppercase text-slate-400 font-semibold">Free Funds</div>
+                <div className="text-[11px] uppercase text-slate-400 font-semibold">{t.portfolio.freeFunds}</div>
                 <div className="font-semibold text-slate-900">
                   ${portfolio.cashBalance.toLocaleString(undefined, { maximumFractionDigits: 2 })}
                 </div>
@@ -401,12 +403,12 @@ const PortfolioView: React.FC<PortfolioViewProps> = ({
             <table className="min-w-full text-sm">
               <thead>
                 <tr className="text-xs text-slate-400 border-b border-slate-100">
-                  <th className="py-2 pl-4 pr-2 text-left font-medium">Asset</th>
-                  <th className="py-2 px-2 text-right font-medium">Quantity</th>
-                  <th className="py-2 px-2 text-right font-medium">Avg. price</th>
-                  <th className="py-2 px-2 text-right font-medium">Current price</th>
-                  <th className="py-2 px-2 text-right font-medium">Total value</th>
-                  <th className="py-2 pl-2 pr-4 text-right font-medium">Return</th>
+                  <th className="py-2 pl-4 pr-2 text-left font-medium">{t.portfolio.asset}</th>
+                  <th className="py-2 px-2 text-right font-medium">{t.portfolio.quantity}</th>
+                  <th className="py-2 px-2 text-right font-medium">{t.portfolio.avgPrice}</th>
+                  <th className="py-2 px-2 text-right font-medium">{t.portfolio.currentPrice}</th>
+                  <th className="py-2 px-2 text-right font-medium">{t.portfolio.totalValue}</th>
+                  <th className="py-2 pl-2 pr-4 text-right font-medium">{t.portfolio.return}</th>
                 </tr>
               </thead>
               <tbody>

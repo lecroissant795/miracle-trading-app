@@ -1,12 +1,15 @@
 
 import React, { useState } from 'react';
 import { Info, ChevronRight, Search, Filter, Globe, BarChart3, Layers, Zap, Shield, Sparkles, Flame, Heart, ShoppingBag, TrendingDown, Flag, Plus, Star } from 'lucide-react';
+import { useTranslation } from '../services/LanguageContext';
 
 // --- Types & Data ---
 
+type CategoryItem = { id: string; name: string; icon: React.ReactNode };
+
 type CategoryGroup = {
   title: string;
-  items: { id: string; name: string; icon: React.ReactNode }[];
+  items: CategoryItem[];
 };
 
 const SIDEBAR_GROUPS: CategoryGroup[] = [
@@ -81,6 +84,7 @@ interface ListingViewProps {
 }
 
 const ListingView: React.FC<ListingViewProps> = ({ onSelectStock }) => {
+    const { t } = useTranslation();
     const [activeCategory, setActiveCategory] = useState('most_traded');
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -91,8 +95,6 @@ const ListingView: React.FC<ListingViewProps> = ({ onSelectStock }) => {
         return matchesCategory && matchesSearch;
     });
 
-    const activeCategoryInfo = SIDEBAR_GROUPS.flatMap(g => g.items).find(i => i.id === activeCategory);
-
     return (
         <div className="flex bg-white h-full animate-fade-in overflow-hidden">
             
@@ -101,14 +103,19 @@ const ListingView: React.FC<ListingViewProps> = ({ onSelectStock }) => {
                 <div className="p-6">
                     <h2 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
                          <Search size={20} className="text-blue-600" />
-                         Browse
+                         {t.market.browse}
                     </h2>
                 </div>
 
                 <div className="flex-1 px-4 space-y-6 pb-8">
                     {SIDEBAR_GROUPS.map((group, idx) => (
                         <div key={idx}>
-                            <h3 className="px-3 mb-2 text-xs font-bold text-slate-400 uppercase tracking-wider">{group.title}</h3>
+                            <h3 className="px-3 mb-2 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                                {idx === 0 ? t.market.categories.usersChoice : 
+                                 idx === 1 ? t.market.categories.thematic : 
+                                 idx === 2 ? t.market.categories.assetClass : 
+                                 t.market.categories.regions}
+                            </h3>
                             <div className="space-y-0.5">
                                 {group.items.map(item => (
                                     <button
@@ -123,7 +130,21 @@ const ListingView: React.FC<ListingViewProps> = ({ onSelectStock }) => {
                                         <div className={`transition-transform ${activeCategory === item.id ? 'scale-110' : ''}`}>
                                             {item.icon}
                                         </div>
-                                        {item.name}
+                                        {item.id === 'most_traded' ? t.market.categories.mostTraded :
+                                         item.id === 'most_owned' ? t.market.categories.mostOwned :
+                                         item.id === 'most_bought' ? t.market.categories.mostBought :
+                                         item.id === 'most_sold' ? t.market.categories.mostSold :
+                                         item.id === 'big_tech' ? t.market.categories.bigTech :
+                                         item.id === 'ai' ? t.market.categories.ai :
+                                         item.id === 'cybersecurity' ? t.market.categories.cybersecurity :
+                                         item.id === 'ev' ? t.market.categories.evs :
+                                         item.id === 'stocks' ? t.market.categories.stocks :
+                                         item.id === 'etfs' ? t.market.categories.etfs :
+                                         item.id === 'crypto' ? t.market.categories.crypto :
+                                         item.id === 'us' ? t.market.categories.usGreats :
+                                         item.id === 'uk' ? t.market.categories.ukGems :
+                                         item.id === 'eu' ? t.market.categories.euLeaders :
+                                         item.name}
                                         {activeCategory === item.id && <ChevronRight size={14} className="ml-auto text-blue-400" />}
                                     </button>
                                 ))}
@@ -139,20 +160,34 @@ const ListingView: React.FC<ListingViewProps> = ({ onSelectStock }) => {
                 <div className="px-8 py-6 border-b border-slate-100 bg-white z-10">
                     <div className="max-w-5xl mx-auto w-full">
                         <div className="flex justify-between items-end mb-6">
-                            <div>
+                             <div>
                                 <h1 className="text-3xl font-black text-slate-900 tracking-tight mb-2">
-                                    {activeCategoryInfo?.name || 'Browse Assets'}
+                                    {(activeCategory === 'most_traded' && t.market.categories.mostTraded) ||
+                                     (activeCategory === 'most_owned' && t.market.categories.mostOwned) ||
+                                     (activeCategory === 'most_bought' && t.market.categories.mostBought) ||
+                                     (activeCategory === 'most_sold' && t.market.categories.mostSold) ||
+                                     (activeCategory === 'big_tech' && t.market.categories.bigTech) ||
+                                     (activeCategory === 'ai' && t.market.categories.ai) ||
+                                     (activeCategory === 'cybersecurity' && t.market.categories.cybersecurity) ||
+                                     (activeCategory === 'ev' && t.market.categories.evs) ||
+                                     (activeCategory === 'stocks' && t.market.categories.stocks) ||
+                                     (activeCategory === 'etfs' && t.market.categories.etfs) ||
+                                     (activeCategory === 'crypto' && t.market.categories.crypto) ||
+                                     (activeCategory === 'us' && t.market.categories.usGreats) ||
+                                     (activeCategory === 'uk' && t.market.categories.ukGems) ||
+                                     (activeCategory === 'eu' && t.market.categories.euLeaders) ||
+                                     t.market.browseAssets}
                                 </h1>
                                 <p className="text-slate-500 font-medium">
-                                    {filteredData.length} instruments available
+                                    {filteredData.length} {t.market.instrumentsAvailable}
                                 </p>
                             </div>
                             
-                            <div className="relative group">
+                             <div className="relative group">
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" size={16} />
                                 <input 
                                     type="text" 
-                                    placeholder="Search this list..." 
+                                    placeholder={t.market.searchList} 
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     className="pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all w-64"
@@ -168,13 +203,13 @@ const ListingView: React.FC<ListingViewProps> = ({ onSelectStock }) => {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="border-b border-slate-100">
-                                    <th className="py-4 px-4 w-12 bg-white"></th>
-                                    <th className="py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-white">Instrument</th>
-                                    <th className="py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-white">Name</th>
-                                    <th className="py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-white">Type</th>
-                                    <th className="py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-white text-center">Change (24h)</th>
-                                    <th className="py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-white text-center">Currency</th>
-                                    <th className="py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-white text-center">Spread</th>
+                                     <th className="py-4 px-4 w-12 bg-white"></th>
+                                    <th className="py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-white">{t.market.instrument}</th>
+                                    <th className="py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-white">{t.market.name}</th>
+                                    <th className="py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-white">{t.market.type}</th>
+                                    <th className="py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-white text-center">{t.market.change24h}</th>
+                                    <th className="py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-white text-center">{t.market.currency}</th>
+                                    <th className="py-4 px-4 text-[10px] font-black text-slate-400 uppercase tracking-wider bg-white text-center">{t.market.spread}</th>
                                     <th className="py-4 px-4 w-16 bg-white"></th>
                                 </tr>
                             </thead>
@@ -200,9 +235,11 @@ const ListingView: React.FC<ListingViewProps> = ({ onSelectStock }) => {
                                             <td className="py-3 px-4">
                                                 <span className="text-sm font-medium text-slate-700">{item.name}</span>
                                             </td>
-                                            <td className="py-3 px-4">
-                                                 <span className="text-[11px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-500 uppercase tracking-wide">{item.type}</span>
-                                            </td>
+                                             <td className="py-3 px-4">
+                                                  <span className="text-[11px] font-bold px-2 py-1 rounded bg-slate-100 text-slate-500 uppercase tracking-wide">
+                                                      {item.type.toUpperCase() === 'STOCK' ? t.market.stock : t.market.crypto}
+                                                  </span>
+                                             </td>
                                             <td className="py-3 px-4 text-center">
                                                 <span className={`text-xs font-bold ${item.change >= 0 ? 'text-emerald-500' : 'text-rose-500'}`}>
                                                     {item.change >= 0 ? '+' : ''}{item.change}%
@@ -234,7 +271,7 @@ const ListingView: React.FC<ListingViewProps> = ({ onSelectStock }) => {
                                                 <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto text-slate-300">
                                                     <Search size={24} />
                                                 </div>
-                                                <p className="text-sm text-slate-500 font-medium">No instruments found in this category.</p>
+                                                <p className="text-sm text-slate-500 font-medium">{t.market.noInstruments}</p>
                                             </div>
                                         </td>
                                     </tr>

@@ -5,6 +5,8 @@ import missionImage from '../resources/image.png';
 import Button from './Button';
 import Logo from './Logo';
 import Footer from './Footer';
+import LanguageSelector from './LanguageSelector';
+import { useTranslation } from '../services/LanguageContext';
 
 interface LandingPageProps {
   onNavigate: (view: any, category?: string) => void;
@@ -12,6 +14,8 @@ interface LandingPageProps {
 }
 
 const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-900">
       
@@ -25,25 +29,26 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
 
             {/* Middle Links (Pill Shape) */}
             <div className="hidden md:flex items-center bg-slate-100/80 px-1.5 py-1.5 rounded-full">
-                <button onClick={() => onNavigate('LANDING')} className="px-6 py-2 text-sm font-semibold text-slate-900 bg-white shadow-sm rounded-full transition-all">Home</button>
-                <button onClick={() => onNavigate(isLoggedIn ? 'DASHBOARD' : 'MARKET_EXPLORER')} className="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Market</button>
-                <button onClick={() => onNavigate('PORTFOLIO')} className="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Portfolio</button>
-                <button onClick={() => onNavigate('SUPPORT_PUBLIC')} className="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">Support</button>
+                <button onClick={() => onNavigate('LANDING')} className="px-6 py-2 text-sm font-semibold text-slate-900 bg-white shadow-sm rounded-full transition-all">{t.nav.home}</button>
+                <button onClick={() => onNavigate(isLoggedIn ? 'DASHBOARD' : 'MARKET_EXPLORER')} className="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">{t.nav.market}</button>
+                <button onClick={() => onNavigate('PORTFOLIO')} className="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">{t.nav.portfolio}</button>
+                <button onClick={() => onNavigate('SUPPORT_PUBLIC')} className="px-6 py-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors">{t.nav.support}</button>
             </div>
 
             {/* Action Buttons */}
             <div className="flex items-center gap-6">
+                <LanguageSelector />
                 <button 
                   onClick={() => onNavigate('AUTH', 'LOGIN')}
                   className="hidden md:block text-sm font-bold text-slate-900 hover:text-slate-700"
                 >
-                  Log in
+                  {t.nav.login}
                 </button>
                 <Button 
                   onClick={() => onNavigate('AUTH', 'SIGNUP')} 
                   className="px-8 py-3 rounded-full bg-black text-white hover:bg-slate-800 font-bold shadow-None"
                 >
-                    Sign up
+                    {t.nav.signup}
                 </Button>
             </div>
         </div>
@@ -56,24 +61,24 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
               {/* Left Content */}
               <div className="flex-[1.2] text-center lg:text-left space-y-8 animate-fade-in-up">
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-wider">
-                      <TrendingUp size={12} strokeWidth={3} /> SMART TRADING PLATFORM
+                      <TrendingUp size={12} strokeWidth={3} /> {t.hero.badge}
                   </div>
                   
                   <h1 className="text-5xl md:text-[5rem] font-bold text-slate-900 leading-[1.1] tracking-tight max-w-[850px]">
-                      Trade with <span className="text-blue-600">Purpose</span>,<br />
-                      trade with Miracle
+                      {t.hero.title.split(',')[0]},<br />
+                      {t.hero.title.split(',')[1]}
                   </h1>
                   
                   <p className="text-xl text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0 font-medium">
-                      Experience the next generation of trading. Smart insights, secure transactions, and a platform built for your growth.
+                      {t.hero.subtitle}
                   </p>
                   
                   <div className="flex flex-col sm:flex-row items-center gap-5 justify-center lg:justify-start pt-4">
                       <Button onClick={() => onNavigate('AUTH', 'SIGNUP')} className="px-8 py-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold text-base shadow-lg shadow-blue-200/50 w-full sm:w-auto h-auto">
-                          Get Started
+                          {t.hero.getStarted}
                       </Button>
                       <button onClick={() => onNavigate('MARKET_EXPLORER')} className="px-8 py-4 rounded-lg bg-white border-2 border-blue-600 text-blue-600 font-bold text-base hover:bg-blue-50 transition-colors w-full sm:w-auto">
-                          Get Start With Demo
+                          {t.hero.demo}
                       </button>
                   </div>
               </div>
@@ -84,7 +89,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                    <div className="relative bg-white rounded-3xl p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] border border-blue-200 w-full max-w-md mx-auto hero-card">
                        <div className="flex justify-between items-start mb-10">
                            <div>
-                               <div className="text-sm font-bold text-slate-400 mb-1">Portfolio Value</div>
+                               <div className="text-sm font-bold text-slate-400 mb-1">{t.stockDetail.portfolioValue}</div>
                                <div className="text-4xl font-extrabold text-slate-900 tracking-tight">$124,500.00</div>
                            </div>
                            <div className="flex items-center gap-1 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-bold">
@@ -148,28 +153,27 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                     <div>
                         <p className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-700">
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                            Trusted network
+                            {t.landing.trustedNetwork}
                         </p>
                         <h2 className="mt-3 text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
-                            A partner ecosystem built for Miracle traders.
+                            {t.landing.partnerEco}
                         </h2>
                         <p className="mt-2 text-sm md:text-base text-slate-500 max-w-xl">
-                            Miracle connects to regulated custodians, liquidity venues, and banking partners so every order is routed, cleared,
-                            and settled with institutional discipline.
+                            {t.landing.partnerDesc}
                         </p>
                     </div>
                     <div className="flex flex-wrap gap-3 text-[11px] md:text-xs text-slate-600">
                         <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1">
                             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                            <span className="font-semibold tracking-[0.16em] uppercase">3 custody partners</span>
+                            <span className="font-semibold tracking-[0.16em] uppercase">{t.landing.custodyPartners}</span>
                         </div>
                         <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1">
                             <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
-                            <span className="font-semibold tracking-[0.16em] uppercase">6 liquidity venues</span>
+                            <span className="font-semibold tracking-[0.16em] uppercase">{t.landing.liquidityVenues}</span>
                         </div>
                         <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 px-3 py-1">
                             <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                            <span className="font-semibold tracking-[0.16em] uppercase">24/7 monitoring</span>
+                            <span className="font-semibold tracking-[0.16em] uppercase">{t.landing.monitoring}</span>
                         </div>
                     </div>
                 </div>
@@ -177,11 +181,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                 {/* Logo row */}
                 <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-2 px-2 md:mx-0 md:px-0">
                     {[
-                        { name: 'Aurora Vault', role: 'Digital custody' },
-                        { name: 'Nexus Capital', role: 'Prime brokerage' },
-                        { name: 'Omega Clear', role: 'Clearing house' },
-                        { name: 'Northbridge Bank', role: 'Banking partner' },
-                        { name: 'Atlas Markets', role: 'Execution venue' },
+                        { name: 'Aurora Vault', role: t.stockDetail.roles.custody },
+                        { name: 'Nexus Capital', role: t.stockDetail.roles.brokerage },
+                        { name: 'Omega Clear', role: t.stockDetail.roles.clearing },
+                        { name: 'Northbridge Bank', role: t.stockDetail.roles.banking },
+                        { name: 'Atlas Markets', role: t.stockDetail.roles.execution },
                     ].map((p) => (
                         <div
                           key={p.name}
@@ -207,7 +211,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
 
                 {/* Sub-copy */}
                 <p className="text-[11px] md:text-xs text-slate-400 text-center md:text-left">
-                    Partner names are illustrative. Actual providers vary by region and account type.
+                    {t.landing.illustrative}
                 </p>
             </div>
       </section>
@@ -225,16 +229,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                    </div>
                    <div className="flex-1">
                        <div className="inline-flex items-center px-4 py-1.5 mb-5 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-widest">
-                           Our Mission
+                           {t.landing.ourMission}
                        </div>
                        <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
-                           Empowering your financial <span className="text-blue-600">freedom.</span>
+                           {t.landing.missionTitle} <span className="text-blue-600">{t.landing.freedom}</span>
                        </h2>
                        <p className="text-slate-500 leading-relaxed mb-6 text-lg">
-                           We believe that financial markets should be accessible to everyone. Our platform removes the complexity of trading, providing you with professional-grade tools in an intuitive interface.
+                           {t.landing.missionDesc1}
                        </p>
                        <p className="text-slate-500 leading-relaxed text-lg">
-                           Whether you are just starting out or are an experienced trader, Miracle provides the data, security, and speed you need to succeed in today's fast-paced markets.
+                           {t.landing.missionDesc2}
                        </p>
                    </div>
                </div>
@@ -244,22 +248,22 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                        <div className="w-16 h-16 mx-auto bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-4">
                            <span className="font-bold text-2xl">$</span>
                        </div>
-                       <h4 className="font-bold text-slate-900 text-lg mb-2">Low Fees</h4>
-                       <p className="text-sm text-slate-500">Keep more of your profits with our competitive pricing structure.</p>
+                       <h4 className="font-bold text-slate-900 text-lg mb-2">{t.common.lowFees}</h4>
+                       <p className="text-sm text-slate-500">{t.common.lowFeesDesc}</p>
                    </div>
                    <div>
                        <div className="w-16 h-16 mx-auto bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-4">
                            <Globe size={24} />
                        </div>
-                       <h4 className="font-bold text-slate-900 text-lg mb-2">Global Access</h4>
-                       <p className="text-sm text-slate-500">Trade on international markets from a single verified account.</p>
+                       <h4 className="font-bold text-slate-900 text-lg mb-2">{t.common.globalAccess}</h4>
+                       <p className="text-sm text-slate-500">{t.common.globalAccessDesc}</p>
                    </div>
                    <div>
                        <div className="w-16 h-16 mx-auto bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-4">
                            <Lock size={24} />
                        </div>
-                       <h4 className="font-bold text-slate-900 text-lg mb-2">Bank-Grade Security</h4>
-                       <p className="text-sm text-slate-500">Your assets are protected by industry-leading encryption and cold storage.</p>
+                       <h4 className="font-bold text-slate-900 text-lg mb-2">{t.common.security}</h4>
+                       <p className="text-sm text-slate-500">{t.common.securityDesc}</p>
                    </div>
                </div>
           </div>
@@ -269,18 +273,17 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
       {/* Market Overview */}
       <section className="py-40 px-6 bg-slate-100">
            <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
-               <div className="flex-1">
-                   <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">Market Overview</h2>
-                   <p className="text-slate-500 mb-10 max-w-md text-base leading-relaxed">
-                       Invest without borders. Unlock opportunities across 50+ global markets with access to thousands of securities. Build the internationally diversified portfolio that matches your ambitions.
-                   </p>
-                   <div className="flex flex-col sm:flex-row gap-4">
-                       <Button onClick={() => onNavigate('MARKET_EXPLORER')} className="px-8 py-3.5 rounded-full bg-blue-600 text-white font-bold">
-                           Explore Markets
-                       </Button>
-
-                   </div>
-               </div>
+                <div className="flex-1">
+                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">{t.landing.marketOverview}</h2>
+                    <p className="text-slate-500 mb-10 max-w-md text-base leading-relaxed">
+                        {t.landing.investNoBorders}
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                        <Button onClick={() => onNavigate('MARKET_EXPLORER')} className="px-8 py-3.5 rounded-full bg-blue-600 text-white font-bold">
+                            {t.landing.exploreMarkets}
+                        </Button>
+                    </div>
+                </div>
                <div className="flex-1 w-full bg-white p-8 rounded-[2rem] shadow-lg border border-slate-200/50">
                    <div className="flex justify-between items-center mb-8">
                        <div>
@@ -318,10 +321,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
       <section className="py-32 px-6 text-center">
           <div className="max-w-6xl mx-auto">
               <h2 className="text-5xl md:text-6xl font-bold text-slate-900 mb-6 tracking-tight">
-                  Start trading in <span className="text-[#4361EE]">minutes</span>
+                  {t.landing.startInMinutes.split('minutes')[0]}<span className="text-[#4361EE]">{t.landing.startInMinutes.includes('phút') ? 'phút' : 'minutes'}</span>
               </h2>
               <p className="text-slate-500 mb-24 max-w-2xl mx-auto text-lg leading-relaxed font-medium">
-                  Join over 2 million traders who trust Miracle for their daily trading needs. Get started with three simple steps.
+                  {t.landing.joinTraders}
               </p>
               
               <div className="relative flex flex-col md:flex-row justify-between items-start gap-16 md:gap-0 max-w-5xl mx-auto mb-20">
@@ -336,9 +339,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                           </div>
                           <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#ccff00] text-slate-900 text-sm font-bold rounded-full flex items-center justify-center shadow-sm border-2 border-white">1</div>
                       </div>
-                      <h3 className="text-xl font-extrabold text-slate-900 mb-4">Create Account</h3>
+                      <h3 className="text-xl font-extrabold text-slate-900 mb-4">{t.landing.step1}</h3>
                       <p className="text-slate-400 max-w-[260px] leading-relaxed font-medium text-sm">
-                          Keep more of your profits with our competitive pricing structure.
+                          {t.common.lowFeesDesc}
                       </p>
                   </div>
                   
@@ -350,9 +353,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                           </div>
                           <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#ccff00] text-slate-900 text-sm font-bold rounded-full flex items-center justify-center shadow-sm border-2 border-white">2</div>
                       </div>
-                      <h3 className="text-xl font-extrabold text-slate-900 mb-4">Fund Your Wallet</h3>
+                      <h3 className="text-xl font-extrabold text-slate-900 mb-4">{t.landing.step2}</h3>
                       <p className="text-slate-400 max-w-[260px] leading-relaxed font-medium text-sm">
-                          Trade on international markets from a single verified account.
+                          {t.common.globalAccessDesc}
                       </p>
                   </div>
                   
@@ -364,18 +367,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                           </div>
                           <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#ccff00] text-slate-900 text-sm font-bold rounded-full flex items-center justify-center shadow-sm border-2 border-white">3</div>
                       </div>
-                      <h3 className="text-xl font-extrabold text-slate-900 mb-4">Start Trading</h3>
+                      <h3 className="text-xl font-extrabold text-slate-900 mb-4">{t.landing.step3}</h3>
                       <p className="text-slate-400 max-w-[260px] leading-relaxed font-medium text-sm">
-                           Your assets are protected by industry-leading encryption and cold storage.
+                           {t.common.securityDesc}
                       </p>
                   </div>
               </div>
               
               <div className="flex flex-col items-center gap-5 pt-8">
                   <Button onClick={() => onNavigate('AUTH', 'SIGNUP')} className="px-12 py-4.5 rounded-2xl bg-[#4361EE] hover:bg-[#3b51d4] text-white font-bold text-base shadow-xl shadow-blue-200 w-full sm:w-auto h-auto transition-all">
-                      Create Free Account
+                      {t.landing.createFree}
                   </Button>
-                  <p className="text-sm text-slate-400 font-bold">No hidden fees.</p>
+                  <p className="text-sm text-slate-400 font-bold">{t.landing.noHiddenFees}</p>
               </div>
           </div>
       </section>
@@ -390,35 +393,35 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
 
                     <div className="grid gap-12 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1.2fr)] items-center">
                         {/* Text + stats */}
-                        <div>
+                         <div>
                             <div className="inline-flex items-center gap-2 rounded-full bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-200 border border-white/10 mb-4">
                                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                                Security first by design
+                                {t.landing.securityFirst}
                             </div>
 
                             <h2 className="text-3xl md:text-4xl font-semibold md:font-bold tracking-tight mb-4">
-                                Security. <span className="text-blue-300">Guaranteed.</span>
+                                {t.landing.securityGuaranteed}
                             </h2>
                             <p className="text-sm md:text-base text-slate-200/80 max-w-xl mb-8 leading-relaxed">
-                                Your trust is our currency. Miracle uses battle‑tested infrastructure, continuous monitoring, and independent custody to keep your funds and personal data safe around the clock.
+                                {t.landing.securityTrust}
                             </p>
 
                             {/* Stats row */}
-                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-left text-xs md:text-sm">
+                             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-left text-xs md:text-sm">
                                 <div className="rounded-2xl bg-white/5 px-4 py-3 border border-white/10">
-                                    <div className="text-[11px] uppercase tracking-wide text-slate-300/80 mb-1">Uptime</div>
+                                    <div className="text-[11px] uppercase tracking-wide text-slate-300/80 mb-1">{t.landing.uptime}</div>
                                     <div className="text-lg font-semibold text-white">99.99%</div>
-                                    <div className="text-[11px] text-slate-300 mt-1">Monitored 24/7</div>
+                                    <div className="text-[11px] text-slate-300 mt-1">{t.landing.monitored}</div>
                                 </div>
                                 <div className="rounded-2xl bg-white/5 px-4 py-3 border border-white/10">
-                                    <div className="text-[11px] uppercase tracking-wide text-slate-300/80 mb-1">Storage</div>
-                                    <div className="text-lg font-semibold text-white">98% offline</div>
-                                    <div className="text-[11px] text-slate-300 mt-1">Cold‑wallet custody</div>
+                                    <div className="text-[11px] uppercase tracking-wide text-slate-300/80 mb-1">{t.landing.storage}</div>
+                                    <div className="text-lg font-semibold text-white">{t.landing.offline}</div>
+                                    <div className="text-[11px] text-slate-300 mt-1">{t.landing.coldWallet}</div>
                                 </div>
                                 <div className="rounded-2xl bg-white/5 px-4 py-3 border border-white/10 col-span-2 sm:col-span-1">
-                                    <div className="text-[11px] uppercase tracking-wide text-slate-300/80 mb-1">Compliance</div>
-                                    <div className="text-lg font-semibold text-white">SOC‑2 ready</div>
-                                    <div className="text-[11px] text-slate-300 mt-1">Independent audits</div>
+                                    <div className="text-[11px] uppercase tracking-wide text-slate-300/80 mb-1">{t.landing.compliance}</div>
+                                    <div className="text-lg font-semibold text-white">{t.landing.soc2}</div>
+                                    <div className="text-[11px] text-slate-300 mt-1">{t.landing.audits}</div>
                                 </div>
                             </div>
                         </div>
@@ -430,9 +433,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                                     <Lock size={22} />
                                 </div>
                                 <div>
-                                    <h3 className="text-sm font-semibold text-white mb-1">Multi‑layer authentication</h3>
+                                    <h3 className="text-sm font-semibold text-white mb-1">{t.landing.multiLayer}</h3>
                                     <p className="text-xs md:text-[13px] text-slate-200/85 leading-relaxed">
-                                        Protect every sign‑in with 2FA, device approvals, and session alerts so only you can access your account.
+                                        {t.landing.multiLayerDesc}
                                     </p>
                                 </div>
                             </div>
@@ -442,9 +445,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                                     <ShieldCheck size={22} />
                                 </div>
                                 <div>
-                                    <h3 className="text-sm font-semibold text-white mb-1">End‑to‑end encryption</h3>
+                                    <h3 className="text-sm font-semibold text-white mb-1">{t.landing.encryption}</h3>
                                     <p className="text-xs md:text-[13px] text-slate-200/85 leading-relaxed">
-                                        Sensitive data is encrypted in transit and at rest with modern ciphers and strict key‑management policies.
+                                        {t.landing.encryptionDesc}
                                     </p>
                                 </div>
                             </div>
@@ -454,9 +457,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                                     <Globe size={22} />
                                 </div>
                                 <div>
-                                    <h3 className="text-sm font-semibold text-white mb-1">Global safeguards</h3>
+                                    <h3 className="text-sm font-semibold text-white mb-1">{t.landing.safeguards}</h3>
                                     <p className="text-xs md:text-[13px] text-slate-200/85 leading-relaxed">
-                                        Distributed infrastructure, rigorous access controls, and geo‑redundant backups reduce single‑point risks.
+                                        {t.landing.safeguardsDesc}
                                     </p>
                                 </div>
                             </div>
@@ -471,13 +474,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
             <div className="max-w-6xl mx-auto">
                 <div className="grid gap-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1.1fr)] items-start">
                      <div>
-                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">Frequently asked questions</h2>
+                         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight">{t.landing.faqs}</h2>
                          <p className="text-slate-500 mb-7 text-sm md:text-base max-w-md">
-                             Can't find what you're looking for? Our team of product specialists is here to help you 24/7.
+                             {t.landing.cantFind}
                          </p>
                          <div className="flex flex-wrap items-center gap-4">
                              <Button onClick={() => onNavigate('SUPPORT_PUBLIC')} variant="primary" className="rounded-full px-6 py-2.5 text-sm font-semibold">
-                                 Contact Support
+                                 {t.landing.contactSupport}
                              </Button>
                          </div>
                      </div>
@@ -487,9 +490,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                          <div className="rounded-2xl border border-slate-100 bg-slate-50/80 px-4 py-3.5 md:px-5 md:py-4 cursor-pointer hover:border-blue-200 hover:bg-white transition-colors">
                              <div className="flex items-center justify-between gap-4">
                                  <div>
-                                     <p className="text-sm font-semibold text-slate-900">How do I get started with Miracle?</p>
+                                     <p className="text-sm font-semibold text-slate-900">{t.landing.faq1Q}</p>
                                      <p className="mt-1.5 text-xs text-slate-500 leading-relaxed hidden sm:block">
-                                         Create an account, verify your identity, and fund your wallet to start trading thousands of global assets.
+                                         {t.landing.faq1A}
                                      </p>
                                  </div>
                                  <ChevronDown size={16} className="text-slate-400" />
@@ -497,18 +500,18 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                          </div>
 
                          <div className="rounded-2xl border border-blue-200 bg-blue-50/70 px-4 py-3.5 md:px-5 md:py-4">
-                             <div className="flex items-center justify-between gap-4 mb-1">
-                                 <p className="text-sm font-semibold text-slate-900">Is Miracle beginner friendly?</p>
-                                 <ChevronDown size={16} className="text-slate-500 rotate-180" />
-                             </div>
-                             <p className="text-xs md:text-[13px] text-slate-600 leading-relaxed">
-                                 Miracle is designed to be beginner-friendly. We offer a range of educational resources, including tutorials, webinars, and market analysis, to help you get started with trading.
-                             </p>
+                                 <div className="flex items-center justify-between gap-4 mb-1">
+                                     <p className="text-sm font-semibold text-slate-900">{t.landing.faq2Q}</p>
+                                     <ChevronDown size={16} className="text-slate-500 rotate-180" />
+                                 </div>
+                                 <p className="text-xs md:text-[13px] text-slate-600 leading-relaxed">
+                                     {t.landing.faq2A}
+                                 </p>
                          </div>
 
                          <div className="rounded-2xl border border-slate-100 bg-slate-50/80 px-4 py-3.5 md:px-5 md:py-4 cursor-pointer hover:border-blue-200 hover:bg-white transition-colors">
                              <div className="flex items-center justify-between gap-4">
-                                 <p className="text-sm font-semibold text-slate-900">Is Miracle available in my country?</p>
+                                 <p className="text-sm font-semibold text-slate-900">{t.landing.faq3Q}</p>
                                  <ChevronDown size={16} className="text-slate-400" />
                              </div>
                          </div>

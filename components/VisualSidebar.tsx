@@ -1,7 +1,10 @@
 import React from 'react';
 import { PieChart, Shield, Zap, TrendingUp, BrainCircuit, RefreshCw, Check, ArrowRight } from 'lucide-react';
+import { useTranslation } from '../services/LanguageContext';
 
 export const VisualSidebar: React.FC = () => {
+  const { t } = useTranslation();
+  
   return (
     <div className="hidden lg:flex flex-col justify-center items-center w-1/2 bg-[#0b1121] relative overflow-hidden p-12 text-white">
       {/* Background Decor - Deep & Institutional */}
@@ -21,7 +24,7 @@ export const VisualSidebar: React.FC = () => {
               </div>
               <div>
                 <h3 className="font-semibold text-white leading-tight">Miracle Advisor</h3>
-                <p className="text-xs text-blue-300 font-medium">Institutional Engine v4.0</p>
+                <p className="text-xs text-blue-300 font-medium">{t.stockDetail.institutionalEngine}</p>
               </div>
             </div>
             <div className="px-2 py-1 rounded bg-emerald-500/10 border border-emerald-500/20 text-[10px] font-bold text-emerald-400 uppercase tracking-wide">
@@ -32,15 +35,15 @@ export const VisualSidebar: React.FC = () => {
           {/* Portfolio Allocation Visual */}
           <div className="space-y-5">
              <div className="flex justify-between items-end mb-2">
-                <span className="text-sm text-slate-400 font-medium">Strategic Allocation</span>
-                <span className="text-xs text-slate-500">Risk Profile: <span className="text-white">Aggressive Growth</span></span>
+                <span className="text-sm text-slate-400 font-medium">{t.stockDetail.strategicAllocation}</span>
+                <span className="text-xs text-slate-500">{t.stockDetail.riskProfile}: <span className="text-white">{t.stockDetail.aggressiveGrowth}</span></span>
              </div>
 
              {/* Asset Class 1 */}
              <div className="group">
                 <div className="flex justify-between text-xs mb-1.5">
                    <span className="text-slate-300 flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-blue-500"></span> Global Equities
+                      <span className="w-2 h-2 rounded-full bg-blue-500"></span> {t.stockDetail.globalEquities}
                    </span>
                    <span className="text-slate-400">Target: 60%</span>
                 </div>
@@ -53,11 +56,11 @@ export const VisualSidebar: React.FC = () => {
              <div className="group">
                 <div className="flex justify-between text-xs mb-1.5">
                    <span className="text-slate-300 flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-purple-500"></span> Emerging Tech
+                      <span className="w-2 h-2 rounded-full bg-purple-500"></span> {t.stockDetail.emergingTech}
                    </span>
                    <div className="flex items-center gap-2">
                       <span className="text-[10px] text-emerald-400 flex items-center animate-pulse">
-                         <RefreshCw className="w-3 h-3 mr-1" /> Rebalancing
+                         <RefreshCw className="w-3 h-3 mr-1" /> {t.stockDetail.rebalancing}
                       </span>
                       <span className="text-slate-400">Target: 25%</span>
                    </div>
@@ -72,7 +75,7 @@ export const VisualSidebar: React.FC = () => {
              <div className="group">
                 <div className="flex justify-between text-xs mb-1.5">
                    <span className="text-slate-300 flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-amber-500"></span> Fixed Income
+                      <span className="w-2 h-2 rounded-full bg-amber-500"></span> {t.stockDetail.fixedIncome}
                    </span>
                    <span className="text-slate-400">Target: 15%</span>
                 </div>
@@ -85,13 +88,13 @@ export const VisualSidebar: React.FC = () => {
           {/* Metrics Footer */}
           <div className="mt-6 pt-4 border-t border-slate-700/50 grid grid-cols-2 gap-4">
              <div>
-                <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Proj. Yield (APY)</p>
+                <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">{t.stockDetail.projYield}</p>
                 <p className="text-lg font-bold text-white flex items-center gap-1">
                    12.8% <TrendingUp className="w-3 h-3 text-emerald-400" />
                 </p>
              </div>
              <div>
-                <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">Sharpe Ratio</p>
+                <p className="text-[10px] text-slate-400 uppercase tracking-wider mb-1">{t.stockDetail.sharpeRatio}</p>
                 <p className="text-lg font-bold text-white">2.45</p>
              </div>
           </div>
@@ -100,11 +103,11 @@ export const VisualSidebar: React.FC = () => {
         {/* Text Section */}
         <div className="text-center space-y-6 mt-12">
           <h2 className="text-3xl font-bold tracking-tight text-white">
-            Institutional power.<br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">Personalized for you.</span>
+            {t.stockDetail.institutionalPower}<br/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">{t.stockDetail.personalizedForYou}</span>
           </h2>
           <p className="text-slate-400 text-lg font-light leading-relaxed max-w-sm mx-auto">
-            Get the same AI-driven portfolio management used by hedge funds. Automatic rebalancing, tax optimization, and risk control.
+            {t.stockDetail.sidebarDesc}
           </p>
         </div>
       </div>

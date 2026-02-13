@@ -2,12 +2,12 @@
 import { GoogleGenAI } from "@google/genai";
 import { Stock, Portfolio } from "../types";
 
-// Corrected initialization using process.env.API_KEY directly as per guidelines.
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Use VITE_ environment variables for Vite projects.
+const ai = new GoogleGenAI({ apiKey: import.meta.env.VITE_GEMINI_API_KEY || "" });
 
 export const getStockInsight = async (stock: Stock): Promise<string> => {
-  try {
-    const prompt = `
+    try {
+        const prompt = `
       Analyze the following financial asset for a retail investor:
       Name: ${stock.name} (${stock.symbol})
       Current Price: $${stock.price}
@@ -17,20 +17,19 @@ export const getStockInsight = async (stock: Stock): Promise<string> => {
       Provide a concise, 2-sentence summary of what this type of movement usually implies and a brief generic tip for investors considering this asset. Keep it professional but accessible. Do not give financial advice.
     `;
 
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: prompt,
-    });
+        const response = await ai.models.generateContent({
+            model: 'gemini-1.5-flash',
+            contents: prompt,
+        });
 
-    // Accessing .text property directly as per Google GenAI SDK rules.
-    return response.text || "Insight currently unavailable.";
-  } catch (error) {
-    console.error("Error fetching Gemini insight:", error);
-    return "AI insights are temporarily unavailable. Please check back later.";
-  }
+        return response.text || "Insight currently unavailable.";
+    } catch (error) {
+        console.error("Error fetching Gemini insight:", error);
+        return "AI insights are temporarily unavailable. Please check back later.";
+    }
 };
 
-export const getPortfolioAdvice = async (holdings: {symbol: string, value: number}[], totalValue: number): Promise<string> => {
+export const getPortfolioAdvice = async (holdings: { symbol: string, value: number }[], totalValue: number): Promise<string> => {
     try {
         const holdingsSummary = holdings.map(h => `${h.symbol}: $${h.value.toFixed(2)}`).join(', ');
         const prompt = `
@@ -39,11 +38,10 @@ export const getPortfolioAdvice = async (holdings: {symbol: string, value: numbe
         `;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-3-flash-preview',
+            model: 'gemini-1.5-flash',
             contents: prompt,
         });
 
-        // Accessing .text property directly.
         return response.text || "Portfolio analysis unavailable.";
     } catch (error) {
         console.error("Error fetching portfolio advice:", error);
@@ -74,7 +72,7 @@ export const getPortfolioDeepAnalysis = async (portfolio: Portfolio, stocks: Sto
         `;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-3-pro-preview', // Using Pro for deeper analysis
+            model: 'gemini-1.5-pro',
             contents: prompt,
         });
 
@@ -88,7 +86,7 @@ export const getPortfolioDeepAnalysis = async (portfolio: Portfolio, stocks: Sto
 export const askPortfolioQuestion = async (question: string, portfolio: Portfolio, stocks: Stock[]): Promise<string> => {
     try {
         const holdingsData = portfolio.holdings.map(h => h.symbol).join(', ');
-        
+
         const prompt = `
             Context: User has a portfolio containing [${holdingsData}] and $${portfolio.cashBalance} cash.
             User Question: "${question}"
@@ -97,7 +95,7 @@ export const askPortfolioQuestion = async (question: string, portfolio: Portfoli
         `;
 
         const response = await ai.models.generateContent({
-            model: 'gemini-3-flash-preview',
+            model: 'gemini-1.5-flash',
             contents: prompt,
         });
 

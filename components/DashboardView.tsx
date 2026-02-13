@@ -5,6 +5,7 @@ import { Stock } from '../types';
 import Card from './Card';
 import StockChart from './StockChart';
 import Button from './Button';
+import { useTranslation } from '../services/LanguageContext';
 
 interface DashboardViewProps {
   stocks: Stock[];
@@ -108,6 +109,7 @@ const INVESTMENT_IDEAS = {
 };
 
 const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, onBack }) => {
+  const { t } = useTranslation();
   const indices = stocks.filter(s => s.type === 'Index' || s.symbol === 'BTC').slice(0, 3);
   const trending = stocks.filter(s => Math.abs(s.changePercent) > 1).sort((a, b) => Math.abs(b.changePercent) - Math.abs(a.changePercent)).slice(0, 5);
 
@@ -138,7 +140,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
             <ArrowLeft size={20} />
             </button>
             <h1 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                Market Hub <span className="text-xs font-normal text-slate-400 border-l border-slate-300 pl-2 ml-2">Live Updates</span>
+                {t.dashboard.marketHub} <span className="text-xs font-normal text-slate-400 border-l border-slate-300 pl-2 ml-2">{t.dashboard.liveUpdates}</span>
             </h1>
         </div>
         <div className="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-full flex items-center gap-1.5">
@@ -146,7 +148,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
-            Market Open
+            {t.dashboard.marketOpen}
         </div>
       </div>
 
@@ -198,7 +200,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
                     <div className="absolute inset-0 z-20 flex flex-col justify-end">
                         <div className="p-6 md:p-8 w-full">
                             <div className="flex items-center gap-4 mb-4">
-                                <span className="bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shrink-0">Top Story</span>
+                                <span className="bg-blue-600 text-white text-xs font-bold px-2.5 py-1 rounded-lg shrink-0">{t.dashboard.topStory}</span>
                                 <span className="text-slate-300 text-xs font-medium flex items-center gap-1.5"><Clock size={12} /> {heroNews.time}</span>
                                 <span className="text-slate-300 text-xs font-medium">{heroNews.source}</span>
                             </div>
@@ -243,7 +245,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
                 {/* News Feed */}
                 <div className="space-y-6">
                     <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                        <Zap size={20} className="text-amber-500 fill-amber-500" /> Latest Updates
+                        <Zap size={20} className="text-amber-500 fill-amber-500" /> {t.dashboard.latestUpdates}
                     </h3>
                     
                     {feedNews.map(news => (
@@ -284,7 +286,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
                     ))}
 
                     <Button variant="outline" className="w-full py-4 border-dashed text-slate-500 hover:text-blue-600 hover:border-blue-300">
-                        Load More News
+                        {t.dashboard.loadMore}
                     </Button>
                 </div>
 
@@ -292,7 +294,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
                 <div className="space-y-6">
                     <div className="flex items-center justify-between">
                         <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                             Markets Performance
+                             {t.dashboard.marketsPerformance}
                         </h3>
                         <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                             Official Data Partner <span className="text-blue-600 font-black">LSEG</span>
@@ -401,9 +403,9 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
                 <Card>
                     <div className="flex items-center justify-between mb-6">
                         <h3 className="font-bold text-slate-900 flex items-center gap-2">
-                            <Flame size={18} className="text-orange-500 fill-orange-500" /> Trending Stocks
+                            <Flame size={18} className="text-orange-500 fill-orange-500" /> {t.dashboard.trendingStocks}
                         </h3>
-                        <button className="text-xs font-bold text-blue-600 hover:underline">View All</button>
+                        <button className="text-xs font-bold text-blue-600 hover:underline">{t.dashboard.viewAll}</button>
                     </div>
                     <div className="space-y-4">
                         {trending.map((stock, i) => (
@@ -436,7 +438,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
                 <Card>
                     <div className="flex items-center justify-between mb-6">
                         <h3 className="font-bold text-slate-900 flex items-center gap-2">
-                            <BarChart2 size={18} className="text-indigo-500" /> Sectors
+                            <BarChart2 size={18} className="text-indigo-500" /> {t.dashboard.sectors}
                         </h3>
                     </div>
                     <div className="space-y-3">
@@ -463,7 +465,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
                 {/* Market Events (Economic Calendar) */}
                 <div className="bg-slate-900 rounded-3xl p-6 text-white shadow-lg">
                     <h3 className="font-bold mb-4 flex items-center gap-2">
-                        <Clock size={18} /> Market Events
+                        <Clock size={18} /> {t.dashboard.marketEvents}
                     </h3>
                     <div className="space-y-4">
                         {[
@@ -477,7 +479,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
                                     <div className="text-sm font-bold text-slate-100">{item.event}</div>
                                     <div className="text-xs text-slate-400 mt-0.5">{item.time}</div>
                                     <span className={`text-[10px] px-1.5 py-0.5 rounded border ${item.impact === 'High' ? 'border-red-500/30 text-red-400 bg-red-500/10' : 'border-amber-500/30 text-amber-400 bg-amber-500/10'} mt-1 inline-block`}>
-                                        {item.impact} Impact
+                                    {item.impact === 'High' ? t.dashboard.highImpact : t.dashboard.medImpact}
                                     </span>
                                 </div>
                             </div>
@@ -489,7 +491,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
                 <Card className="!p-5 border-blue-100 bg-gradient-to-b from-white to-blue-50/20">
                     <div className="mb-4">
                         <h3 className="font-bold text-slate-900 flex items-center gap-2 mb-4">
-                            <Zap size={18} className="text-blue-600" /> Investment Ideas
+                            <Zap size={18} className="text-blue-600" /> {t.dashboard.investmentIdeas}
                         </h3>
                         <div className="flex p-1 bg-slate-100/80 rounded-xl">
                             {(['gainers', 'losers', 'active'] as const).map((tab) => (
@@ -502,7 +504,9 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
                                         : 'text-slate-500 hover:text-slate-700'
                                     }`}
                                 >
-                                    {tab}
+                                    {tab === 'gainers' ? t.dashboard.gainers : 
+                                     tab === 'losers' ? t.dashboard.losers : 
+                                     t.dashboard.active}
                                 </button>
                             ))}
                         </div>
@@ -540,7 +544,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ stocks, onSelectStock, on
                 {/* Verified Sources */}
                 <div className="pt-4 border-t border-slate-100">
                     <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2 mb-4">
-                        <ShieldCheck size={18} className="text-emerald-500" /> Verified Sources
+                        <ShieldCheck size={18} className="text-emerald-500" /> {t.dashboard.verifiedSources}
                     </h3>
                     <div className="grid grid-cols-1 gap-2">
                         {[

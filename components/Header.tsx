@@ -12,6 +12,8 @@ interface HeaderProps {
   onLogout?: () => void;
 }
 
+import { useTranslation } from '../services/LanguageContext';
+
 const Header: React.FC<HeaderProps> = ({ 
   title = "Portfolio",
   totalBalance = 15215.70, 
@@ -21,6 +23,7 @@ const Header: React.FC<HeaderProps> = ({
   onSettingsClick,
   onLogout
 }) => {
+  const { t } = useTranslation();
   const isPositive = dailyChange >= 0;
   const [showNotifications, setShowNotifications] = useState(false);
   const [showNetWorth, setShowNetWorth] = useState(false);
@@ -74,7 +77,7 @@ const Header: React.FC<HeaderProps> = ({
         <h1 className="text-lg font-bold text-slate-700 tracking-tight">{title}</h1>
         <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-full border border-emerald-100/50">
           <Circle size={8} className="fill-emerald-500 animate-pulse" />
-          <span className="text-[10px] font-bold uppercase tracking-wider">Market Open</span>
+          <span className="text-[10px] font-bold uppercase tracking-wider">{t.dashboard.marketOpen}</span>
         </div>
       </div>
 
@@ -98,7 +101,7 @@ const Header: React.FC<HeaderProps> = ({
         {/* Performance Badge */}
         <div className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-2xl text-xs font-bold border border-slate-200 bg-white shadow-sm ${isPositive ? 'text-emerald-600' : 'text-rose-600'}`}>
             {isPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-            {isPositive ? '+' : ''}{dailyChange}% Today
+            {isPositive ? '+' : ''}{dailyChange}% {t.portfolio.performance}
         </div>
 
         {/* Notifications */}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Home, ArrowLeftRight, LineChart, Wallet, GraduationCap, Users, Phone, ChevronDown, ChevronRight, PieChart, Settings, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import Logo from './Logo';
+import { useTranslation } from '../services/LanguageContext';
 
 interface SidebarProps {
   currentView: string;
@@ -12,6 +13,7 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ currentView, currentCategory, onChangeView, width, collapsed, onToggleSidebar }) => {
+  const { t } = useTranslation();
   const [isStockExpanded, setIsStockExpanded] = useState(true);
   const [isExchangeExpanded, setIsExchangeExpanded] = useState(false);
 
@@ -65,24 +67,24 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, currentCategory, onChang
       {/* Middle Section: Navigation */}
       <nav className={`flex-1 overflow-y-auto hide-scrollbar ${collapsed ? 'px-2' : 'px-4'}`}>
         <div className="mb-6">
-          <p className={`px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 ${collapsed ? 'hidden' : ''}`}>Main Menu</p>
+          <p className={`px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 ${collapsed ? 'hidden' : ''}`}>{t.sidebar.mainMenu}</p>
           <MenuItem 
             icon={Home} 
-            label="Home" 
+            label={t.sidebar.home} 
             active={currentView === 'DASHBOARD'} 
             onClick={() => onChangeView('DASHBOARD')}
             collapsed={collapsed}
           />
           <MenuItem 
             icon={LineChart} 
-            label="Market" 
+            label={t.sidebar.market} 
             active={currentView === 'LISTING'} 
             onClick={() => onChangeView('LISTING')}
             collapsed={collapsed}
           />
           <MenuItem 
             icon={PieChart} 
-            label="Portfolio" 
+            label={t.sidebar.portfolio} 
             active={currentView === 'PORTFOLIO'} 
             onClick={() => onChangeView('PORTFOLIO')}
             collapsed={collapsed}
@@ -91,7 +93,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, currentCategory, onChang
 
           <MenuItem 
             icon={GraduationCap} 
-            label="Academy" 
+            label={t.sidebar.academy} 
             active={currentView === 'ACADEMY'}
             onClick={() => onChangeView('ACADEMY')}
             collapsed={collapsed}
@@ -107,7 +109,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, currentCategory, onChang
         </div>
 
         <div>
-          <p className={`px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 ${collapsed ? 'hidden' : ''}`}>Support</p>
+          <p className={`px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 ${collapsed ? 'hidden' : ''}`}>{t.sidebar.support}</p>
           {/* <MenuItem 
             icon={Users} 
             label="Community" 
@@ -117,7 +119,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, currentCategory, onChang
           /> */}
           <MenuItem 
             icon={Phone} 
-            label="Help & Support" 
+            label={t.sidebar.helpSupport} 
             active={currentView === 'SUPPORT'}
             onClick={() => onChangeView('SUPPORT')}
             collapsed={collapsed}
@@ -131,17 +133,17 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, currentCategory, onChang
         <button 
           onClick={onToggleSidebar}
           className={`w-full flex items-center ${collapsed ? 'justify-center px-0' : 'justify-start px-4'} py-2 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-slate-50 transition-all`}
-          title={collapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          title={collapsed ? t.sidebar.expand : t.sidebar.collapse}
         >
             <div className={`flex items-center gap-3 ${collapsed ? 'justify-center' : ''}`}>
                 {collapsed ? <ChevronsRight size={20} /> : <ChevronsLeft size={20} />}
-                <span className={collapsed ? 'hidden' : 'inline'}>Collapse</span>
+                <span className={collapsed ? 'hidden' : 'inline'}>{t.sidebar.collapse}</span>
             </div>
         </button>
 
         <MenuItem 
           icon={Settings} 
-          label="Settings" 
+          label={t.sidebar.settings} 
           active={currentView === 'SETTINGS'}
           onClick={() => onChangeView('SETTINGS')}
           collapsed={collapsed}

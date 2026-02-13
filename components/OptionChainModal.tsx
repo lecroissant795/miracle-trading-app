@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import { Stock } from '../types';
+import { useTranslation } from '../services/LanguageContext';
 
 interface OptionChainModalProps {
   isOpen: boolean;
@@ -11,6 +12,7 @@ interface OptionChainModalProps {
 const EXPIRATIONS = ['Nov 17', 'Nov 24', 'Dec 1', 'Dec 15', 'Jan 19', 'Mar 15'];
 
 const OptionChainModal: React.FC<OptionChainModalProps> = ({ isOpen, onClose, stock }) => {
+  const { t } = useTranslation();
   const [selectedExpiry, setSelectedExpiry] = useState(EXPIRATIONS[2]);
   const [tab, setTab] = useState<'BOTH' | 'CALLS' | 'PUTS'>('BOTH');
 

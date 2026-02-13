@@ -4,6 +4,9 @@ import { Input } from './AuthInput';
 import { VisualSidebar } from './VisualSidebar';
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight, CheckCircle, ArrowLeft } from 'lucide-react';
 import Logo from './Logo';
+import LanguageSelector from './LanguageSelector';
+import { useTranslation } from '../services/LanguageContext';
+import { translations } from '../services/translations';
 
 export enum AuthMode {
     LOGIN = 'LOGIN',
@@ -17,6 +20,7 @@ interface AuthPageProps {
 }
 
 const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => {
+  const { t, language } = useTranslation();
   const [authMode, setAuthMode] = useState<AuthMode>(
     startView === 'SIGNUP' ? AuthMode.SIGNUP : AuthMode.LOGIN
   );
@@ -54,7 +58,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => 
           <div className="w-full border-t border-gray-200"></div>
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-2 bg-white text-gray-500">Or continue with</span>
+          <span className="px-2 bg-white text-gray-500">{t.common.continueWith}</span>
         </div>
       </div>
 
@@ -81,14 +85,14 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => 
   const renderLoginForm = () => (
     <form onSubmit={handleSubmit} className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back</h1>
-        <p className="text-gray-500">Please enter your details to sign in.</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">{t.nav.login}</h1>
+        <p className="text-gray-500">{language === 'EN' ? 'Please enter your details to sign in.' : 'Vui lòng nhập thông tin để đăng nhập.'}</p>
       </div>
 
       <Input 
-        label="Email Address" 
+        label={t.common.email} 
         type="email" 
-        placeholder="you@example.com" 
+        placeholder="bạn@vi-du.com" 
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         icon={<Mail className="w-5 h-5" />}
@@ -97,7 +101,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => 
       
       <div className="relative">
         <Input 
-          label="Password" 
+          label={t.common.password} 
           type={showPassword ? "text" : "password"} 
           placeholder="••••••••" 
           value={password}
@@ -117,32 +121,32 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => 
       <div className="flex items-center justify-between text-sm">
         <label className="flex items-center cursor-pointer">
           <input type="checkbox" className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500" />
-          <span className="ml-2 text-gray-600">Remember me</span>
+          <span className="ml-2 text-gray-600">{t.common.rememberMe}</span>
         </label>
         <button 
           type="button" 
           onClick={() => toggleMode(AuthMode.FORGOT_PASSWORD)}
           className="font-medium text-blue-600 hover:text-blue-700"
         >
-          Forgot password?
+          {t.common.forgotPassword}
         </button>
       </div>
 
       <Button fullWidth isLoading={isLoading} type="submit" className="mt-2">
-        Sign in
+        {t.nav.signin}
       </Button>
 
       {renderSocialLogin()}
 
       <div className="text-center mt-6">
         <p className="text-sm text-gray-600">
-          Don't have an account?{' '}
+          {t.common.dontHaveAccount}{' '}
           <button 
             type="button" 
             onClick={() => toggleMode(AuthMode.SIGNUP)}
             className="font-semibold text-blue-600 hover:text-blue-700 hover:underline"
           >
-            Create account
+            {t.common.createAccount}
           </button>
         </p>
       </div>
@@ -152,12 +156,12 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => 
   const renderSignupForm = () => (
     <form onSubmit={handleSubmit} className="space-y-4 animate-in fade-in slide-in-from-right-4 duration-300">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h1>
-        <p className="text-gray-500">Start your journey to financial freedom today.</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">{t.nav.signup}</h1>
+        <p className="text-gray-500">{language === 'EN' ? 'Start your journey to financial freedom today.' : 'Bắt đầu hành trình tự do tài chính của bạn ngay hôm nay.'}</p>
       </div>
 
       <Input 
-        label="Full Name" 
+        label={t.common.fullName} 
         type="text" 
         placeholder="John Doe" 
         value={name}
@@ -167,9 +171,9 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => 
       />
 
       <Input 
-        label="Email Address" 
+        label={t.common.email} 
         type="email" 
-        placeholder="you@example.com" 
+        placeholder="bạn@vi-du.com" 
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         icon={<Mail className="w-5 h-5" />}
@@ -178,7 +182,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => 
       
       <div className="relative">
         <Input 
-          label="Password" 
+          label={t.common.password} 
           type={showPassword ? "text" : "password"} 
           placeholder="••••••••" 
           value={password}
@@ -197,27 +201,27 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => 
 
       {/* Password requirements hint */}
       <div className="grid grid-cols-2 gap-2 text-xs text-gray-500 mb-2">
-         <div className="flex items-center"><CheckCircle className="w-3 h-3 mr-1 text-green-500" /> Min. 8 characters</div>
-         <div className="flex items-center"><CheckCircle className="w-3 h-3 mr-1 text-gray-300" /> 1 Special character</div>
-         <div className="flex items-center"><CheckCircle className="w-3 h-3 mr-1 text-gray-300" /> 1 Uppercase</div>
-         <div className="flex items-center"><CheckCircle className="w-3 h-3 mr-1 text-gray-300" /> 1 Number</div>
+         <div className="flex items-center"><CheckCircle className="w-3 h-3 mr-1 text-green-500" /> {t.stockDetail.min8Chars}</div>
+         <div className="flex items-center"><CheckCircle className="w-3 h-3 mr-1 text-gray-300" /> {t.stockDetail.specialChar}</div>
+         <div className="flex items-center"><CheckCircle className="w-3 h-3 mr-1 text-gray-300" /> {t.stockDetail.uppercase}</div>
+         <div className="flex items-center"><CheckCircle className="w-3 h-3 mr-1 text-gray-300" /> {t.stockDetail.number}</div>
       </div>
 
       <Button fullWidth isLoading={isLoading} type="submit" className="mt-4">
-        Create Account <ArrowRight className="w-4 h-4 ml-2" />
+        {t.common.createAccount} <ArrowRight className="w-4 h-4 ml-2" />
       </Button>
 
       {renderSocialLogin()}
 
       <div className="text-center mt-6">
         <p className="text-sm text-gray-600">
-          Already have an account?{' '}
+          {t.common.alreadyHaveAccount}{' '}
           <button 
             type="button" 
             onClick={() => toggleMode(AuthMode.LOGIN)}
             className="font-semibold text-blue-600 hover:text-blue-700 hover:underline"
           >
-            Log in
+            {t.nav.login}
           </button>
         </p>
       </div>
@@ -231,19 +235,19 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => 
         className="flex items-center text-sm text-gray-500 hover:text-gray-900 mb-8 transition-colors"
       >
         <ArrowLeft className="w-4 h-4 mr-2" />
-        Back to log in
+        {t.stockDetail.backToLogin}
       </button>
 
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Forgot Password?</h1>
-        <p className="text-gray-500">Don't worry! It happens. Please enter the email associated with your account.</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">{t.common.forgotPassword}</h1>
+        <p className="text-gray-500">{language === 'EN' ? "Don't worry! It happens. Please enter the email associated with your account." : "Đừng lo lắng! Điều đó thường xảy ra. Vui lòng nhập email được liên kết với tài khoản của bạn."}</p>
       </div>
 
       <form onSubmit={(e) => { e.preventDefault(); setIsLoading(true); setTimeout(() => setIsLoading(false), 1500); }}>
         <Input 
-          label="Email Address" 
+          label={t.common.email} 
           type="email" 
-          placeholder="you@example.com" 
+          placeholder="bạn@vi-du.com" 
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           icon={<Mail className="w-5 h-5" />}
@@ -251,7 +255,7 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => 
         />
         
         <Button fullWidth isLoading={isLoading} type="submit" className="mt-4">
-          Send Reset Code
+          {t.stockDetail.sendResetCode}
         </Button>
       </form>
     </div>
@@ -260,7 +264,10 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => 
   return (
     <div className="flex min-h-screen bg-white">
       {/* Left Side - Form Area */}
-      <div className="w-full lg:w-1/2 flex flex-col p-6 sm:p-12 lg:p-16 xl:p-24 overflow-y-auto">
+      <div className="w-full lg:w-1/2 flex flex-col p-6 sm:p-12 lg:p-16 xl:p-24 overflow-y-auto relative">
+        <div className="absolute top-8 right-8">
+            <LanguageSelector />
+        </div>
         <div className="flex-1 max-w-md mx-auto w-full">
           <div className="cursor-pointer">
               <Logo />
@@ -275,11 +282,11 @@ const AuthPage: React.FC<AuthPageProps> = ({ onLogin, startView = 'LOGIN' }) => 
         
         <footer className="mt-auto pt-8 text-center sm:text-left">
           <p className="text-xs text-gray-400">
-            © 2025 Miracle Trading Platform. All rights reserved.
+            {t.stockDetail.copyright}
           </p>
           <div className="flex gap-4 mt-2 text-xs text-gray-400 justify-center sm:justify-start">
-             <a href="#" className="hover:text-gray-600">Privacy Policy</a>
-             <a href="#" className="hover:text-gray-600">Terms of Service</a>
+             <a href="#" className="hover:text-gray-600">{t.stockDetail.privacyPolicy}</a>
+             <a href="#" className="hover:text-gray-600">{t.stockDetail.termsOfService}</a>
           </div>
         </footer>
       </div>

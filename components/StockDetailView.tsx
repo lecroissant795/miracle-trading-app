@@ -6,6 +6,7 @@ import Button from './Button';
 import OptionChainModal from './OptionChainModal';
 import FinancialsModal from './FinancialsModal';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useTranslation } from '../services/LanguageContext';
 
 interface StockDetailViewProps {
   stock: Stock;
@@ -14,6 +15,7 @@ interface StockDetailViewProps {
 }
 
 const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInvest }) => {
+  const { t } = useTranslation();
   const [timeRange, setTimeRange] = useState('1M');
   const [activeTab, setActiveTab] = useState<'OVERVIEW' | 'INCOME' | 'BALANCE' | 'CASHFLOW'>('OVERVIEW');
   const [isOptionChainOpen, setIsOptionChainOpen] = useState(false);
@@ -23,12 +25,12 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
 
   // Formatted stats
   const stats = [
-    { label: 'Market Cap', value: `$${stock.details?.marketCap}T` },
-    { label: 'P/E Ratio', value: stock.details?.peRatio },
-    { label: 'Dividend Yield', value: `${stock.details?.dividendYield}%` },
-    { label: 'Volume', value: (stock.details?.volume ? (stock.details.volume / 1000000).toFixed(1) + 'M' : '-') },
-    { label: '52 Wk High', value: stock.details?.yearRangeHigh },
-    { label: '52 Wk Low', value: stock.details?.yearRangeLow },
+    { label: t.stockDetail.marketCap, value: `$${stock.details?.marketCap}T` },
+    { label: t.stockDetail.peRatio, value: stock.details?.peRatio },
+    { label: t.stockDetail.dividendYield, value: `${stock.details?.dividendYield}%` },
+    { label: t.stockDetail.volume, value: (stock.details?.volume ? (stock.details.volume / 1000000).toFixed(1) + 'M' : '-') },
+    { label: t.stockDetail.yearHigh, value: stock.details?.yearRangeHigh },
+    { label: t.stockDetail.yearLow, value: stock.details?.yearRangeLow },
   ];
 
   return (
@@ -89,7 +91,7 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                             onClick={() => setTimeRange(range)}
                             className={`px-4 py-2 text-xs font-bold rounded-xl transition-all whitespace-nowrap ${timeRange === range ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}`}
                             >
-                            {range}
+                            {range === '1D' ? '1N' : range === '1W' ? '1T' : range === '1M' ? '1Th' : range === '3M' ? '3Th' : range === 'YTD' ? 'YTD' : range === '1Y' ? '1N' : 'Tất cả'}
                             </button>
                         ))}
                     </div>
@@ -112,25 +114,25 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                 onClick={() => setActiveTab('OVERVIEW')}
                 className={`flex items-center gap-2 pb-4 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${activeTab === 'OVERVIEW' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
             >
-                <LayoutList size={18} /> Overview
+                <LayoutList size={18} /> {t.stockDetail.overview}
             </button>
             <button 
                 onClick={() => setActiveTab('INCOME')}
                 className={`flex items-center gap-2 pb-4 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${activeTab === 'INCOME' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
             >
-                <TrendingUp size={18} /> Income
+                <TrendingUp size={18} /> {t.stockDetail.income}
             </button>
             <button 
                 onClick={() => setActiveTab('BALANCE')}
                 className={`flex items-center gap-2 pb-4 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${activeTab === 'BALANCE' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
             >
-                <Scale size={18} /> Balance Sheet
+                <Scale size={18} /> {t.stockDetail.balanceSheet}
             </button>
             <button 
                 onClick={() => setActiveTab('CASHFLOW')}
                 className={`flex items-center gap-2 pb-4 text-sm font-bold border-b-2 transition-all whitespace-nowrap ${activeTab === 'CASHFLOW' ? 'border-blue-600 text-blue-600' : 'border-transparent text-slate-500 hover:text-slate-800'}`}
             >
-                <Banknote size={18} /> Cash Flow
+                <Banknote size={18} /> {t.stockDetail.cashFlow}
             </button>
         </div>
 
@@ -149,8 +151,8 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                             <BarChart3 size={24} />
                         </div>
                         <div>
-                            <h3 className="text-lg font-bold text-slate-900">Performance Dashboard</h3>
-                            <p className="text-sm text-slate-500">Real-time trading data and ranges</p>
+                            <h3 className="text-lg font-bold text-slate-900">{t.stockDetail.performance}</h3>
+                            <p className="text-sm text-slate-500">{t.stockDetail.realTimeData}</p>
                         </div>
                     </div>
 
@@ -159,9 +161,9 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                          <div className="space-y-6">
                             <div>
                                 <div className="flex justify-between text-sm font-medium text-slate-500 mb-2">
-                                    <span>Day Low</span>
-                                    <span className="text-slate-900 font-bold">Day Range</span>
-                                    <span>Day High</span>
+                                    <span>{t.stockDetail.dayLow}</span>
+                                    <span className="text-slate-900 font-bold">{t.stockDetail.dayRange}</span>
+                                    <span>{t.stockDetail.dayHigh}</span>
                                 </div>
                                 <div className="flex items-center justify-between text-xs font-bold text-slate-900 mb-2">
                                     <span>${stock.details?.dayRangeLow}</span>
@@ -190,9 +192,9 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
 
                             <div>
                                 <div className="flex justify-between text-sm font-medium text-slate-500 mb-2">
-                                    <span>52W Low</span>
-                                    <span className="text-slate-900 font-bold">52 Week Range</span>
-                                    <span>52W High</span>
+                                    <span>{t.stockDetail.yearLow}</span>
+                                    <span className="text-slate-900 font-bold">{t.stockDetail.yearRange}</span>
+                                    <span>{t.stockDetail.yearHigh}</span>
                                 </div>
                                 <div className="flex items-center justify-between text-xs font-bold text-slate-900 mb-2">
                                     <span>${stock.details?.yearRangeLow}</span>
@@ -210,15 +212,15 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                          {/* Mini Stats Grid */}
                          <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-100">
                              <div className="p-4 bg-slate-50 rounded-2xl text-center">
-                                 <div className="text-xs text-slate-500 font-medium mb-1">Open</div>
+                                 <div className="text-xs text-slate-500 font-medium mb-1">{t.stockDetail.open}</div>
                                  <div className="text-lg font-bold text-slate-900">${(stock.price * 0.99).toFixed(2)}</div>
                              </div>
                              <div className="p-4 bg-slate-50 rounded-2xl text-center">
-                                 <div className="text-xs text-slate-500 font-medium mb-1">Prev Close</div>
+                                 <div className="text-xs text-slate-500 font-medium mb-1">{t.stockDetail.prevClose}</div>
                                  <div className="text-lg font-bold text-slate-900">${stock.details?.previousClose}</div>
                              </div>
                              <div className="p-4 bg-slate-50 rounded-2xl text-center">
-                                 <div className="text-xs text-slate-500 font-medium mb-1">Vol / Avg</div>
+                                 <div className="text-xs text-slate-500 font-medium mb-1">{t.stockDetail.volAvg}</div>
                                  <div className="text-lg font-bold text-slate-900">
                                      {stock.details?.volume ? (stock.details.volume / 1000000).toFixed(1) + 'M' : 'N/A'}
                                  </div>
@@ -230,21 +232,21 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                 {/* About Section */}
                 <section>
                     <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-xl font-bold text-slate-900">About {stock.name}</h3>
+                        <h3 className="text-xl font-bold text-slate-900">{t.stockDetail.about} {stock.name}</h3>
                         <button className="text-blue-600 text-sm font-medium hover:underline flex items-center gap-1">
-                            Show more <ArrowUpRight size={16} />
+                            {t.stockDetail.showMore} <ArrowUpRight size={16} />
                         </button>
                     </div>
                     <p className="text-slate-500 leading-7 text-lg mb-6">
-                        {stock.description || "Company description unavailable."}
+                        {stock.description || t.stockDetail.descriptionUnavailable}
                     </p>
                     
                     <div className="flex flex-wrap gap-3">
                          <div className="px-4 py-2 bg-slate-50 rounded-xl border border-slate-100 flex items-center gap-2 text-sm font-medium text-slate-700">
-                            <Activity size={16} className="text-slate-400" /> Technology Sector
+                            <Activity size={16} className="text-slate-400" /> {t.stockDetail.techSector}
                          </div>
                          <div className="px-4 py-2 bg-slate-50 rounded-xl border border-slate-100 flex items-center gap-2 text-sm font-medium text-slate-700">
-                            <Globe size={16} className="text-slate-400" /> Global Market
+                            <Globe size={16} className="text-slate-400" /> {t.stockDetail.globalMarket}
                          </div>
                     </div>
                 </section>
@@ -255,7 +257,7 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                 
                 {/* Key Stats Card */}
                 <section className="bg-slate-50 rounded-3xl p-6 md:p-8">
-                    <h3 className="font-bold text-slate-900 mb-6 text-lg">Key Statistics</h3>
+                    <h3 className="font-bold text-slate-900 mb-6 text-lg">{t.stockDetail.keyStats}</h3>
                     <div className="space-y-5">
                         {stats.map((s) => (
                             <div key={s.label} className="flex justify-between items-center">
@@ -272,13 +274,13 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                         onClick={() => onInvest('BUY')} 
                         className="flex-1 py-4 text-lg font-bold bg-emerald-500 hover:bg-emerald-600 shadow-xl shadow-emerald-200 transform transition-all hover:-translate-y-1"
                     >
-                        Buy
+                        {t.stockDetail.buy}
                     </Button>
                     <Button 
                         onClick={() => onInvest('SELL')} 
                         className="flex-1 py-4 text-lg font-bold bg-rose-500 hover:bg-rose-600 shadow-xl shadow-rose-200 transform transition-all hover:-translate-y-1"
                     >
-                        Sell
+                        {t.stockDetail.sell}
                     </Button>
                 </div>
                 
@@ -287,13 +289,13 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                         onClick={() => setIsFinancialsOpen(true)}
                         className="py-3 px-4 rounded-xl border border-slate-200 text-slate-700 font-bold text-sm hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-2"
                     >
-                        <FileText size={16} className="text-slate-400" /> Financials
+                        <FileText size={16} className="text-slate-400" /> {t.stockDetail.financials}
                     </button>
                     <button 
                         onClick={() => setIsOptionChainOpen(true)}
                         className="py-3 px-4 rounded-xl border border-slate-200 text-slate-700 font-bold text-sm hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center gap-2"
                     >
-                        <MoreHorizontal size={16} className="text-slate-400" /> Options
+                        <MoreHorizontal size={16} className="text-slate-400" /> {t.stockDetail.options}
                     </button>
                 </div>
 
@@ -307,7 +309,7 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                        <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">Revenue vs Cost of Revenue (Annual)</h4>
+                        <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">{t.stockDetail.revenueVsCost} ({t.stockDetail.annual})</h4>
                         <div className="h-64">
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={[
@@ -320,14 +322,14 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                                     <YAxis fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `$${val}B`} />
                                     <Tooltip cursor={{fill: 'transparent'}} />
                                     <Legend />
-                                    <Bar dataKey="revenue" name="Revenue" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={30} />
-                                    <Bar dataKey="cost" name="Cost of Revenue" fill="#ef4444" radius={[4, 4, 0, 0]} barSize={30} />
+                                    <Bar dataKey="revenue" name={t.stockDetail.revenue} fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={30} />
+                                    <Bar dataKey="cost" name={t.stockDetail.cost} fill="#ef4444" radius={[4, 4, 0, 0]} barSize={30} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
                     </div>
                     <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                        <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">EBITDA vs Net Income (Annual)</h4>
+                        <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">{t.stockDetail.ebitdaVsNetIncome} ({t.stockDetail.annual})</h4>
                         <div className="h-64">
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={[
@@ -340,8 +342,8 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                                     <YAxis fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `$${val}B`} />
                                     <Tooltip cursor={{fill: 'transparent'}} />
                                     <Legend />
-                                    <Bar dataKey="ebitda" name="EBITDA" fill="#8b5cf6" radius={[4, 4, 0, 0]} barSize={30} />
-                                    <Bar dataKey="netIncome" name="Net Income" fill="#10b981" radius={[4, 4, 0, 0]} barSize={30} />
+                                    <Bar dataKey="ebitda" name={t.stockDetail.ebitda} fill="#8b5cf6" radius={[4, 4, 0, 0]} barSize={30} />
+                                    <Bar dataKey="netIncome" name={t.stockDetail.netIncome} fill="#10b981" radius={[4, 4, 0, 0]} barSize={30} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
@@ -351,25 +353,25 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                 {/* Income Statement Table */}
                 <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
                     <div className="p-6 border-b border-slate-100 bg-slate-50/50">
-                        <h3 className="font-bold text-slate-900">Income Statement</h3>
+                        <h3 className="font-bold text-slate-900">{t.stockDetail.incomeStatement}</h3>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
                             <thead className="bg-slate-50 text-slate-500 font-medium">
                                 <tr>
-                                    <th className="px-6 py-4">Breakdown</th>
+                                    <th className="px-6 py-4">{t.stockDetail.breakdown}</th>
                                     <th className="px-6 py-4 text-right">2023</th>
                                     <th className="px-6 py-4 text-right">2022</th>
                                     <th className="px-6 py-4 text-right">2021</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
-                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">Revenue</td><td className="px-6 py-3 text-right">$383.29B</td><td className="px-6 py-3 text-right">$394.33B</td><td className="px-6 py-3 text-right">$365.82B</td></tr>
-                                <tr><td className="px-6 py-3 pl-10 text-slate-500">Cost of Revenue</td><td className="px-6 py-3 text-right">$214.14B</td><td className="px-6 py-3 text-right">$223.55B</td><td className="px-6 py-3 text-right">$212.98B</td></tr>
-                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">Gross Profit</td><td className="px-6 py-3 text-right">$169.15B</td><td className="px-6 py-3 text-right">$170.78B</td><td className="px-6 py-3 text-right">$152.84B</td></tr>
-                                <tr><td className="px-6 py-3 pl-10 text-slate-500">Operating Expenses</td><td className="px-6 py-3 text-right">$54.85B</td><td className="px-6 py-3 text-right">$51.35B</td><td className="px-6 py-3 text-right">$43.89B</td></tr>
-                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">Net Income</td><td className="px-6 py-3 text-right text-emerald-600">$97.00B</td><td className="px-6 py-3 text-right text-emerald-600">$99.80B</td><td className="px-6 py-3 text-right text-emerald-600">$94.68B</td></tr>
-                                <tr><td className="px-6 py-3 pl-10 text-slate-500">Basic EPS</td><td className="px-6 py-3 text-right">$6.16</td><td className="px-6 py-3 text-right">$6.15</td><td className="px-6 py-3 text-right">$5.67</td></tr>
+                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">{t.stockDetail.revenue}</td><td className="px-6 py-3 text-right">$383.29B</td><td className="px-6 py-3 text-right">$394.33B</td><td className="px-6 py-3 text-right">$365.82B</td></tr>
+                                <tr><td className="px-6 py-3 pl-10 text-slate-500">{t.stockDetail.cost}</td><td className="px-6 py-3 text-right">$214.14B</td><td className="px-6 py-3 text-right">$223.55B</td><td className="px-6 py-3 text-right">$212.98B</td></tr>
+                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">{t.stockDetail.grossProfit}</td><td className="px-6 py-3 text-right">$169.15B</td><td className="px-6 py-3 text-right">$170.78B</td><td className="px-6 py-3 text-right">$152.84B</td></tr>
+                                <tr><td className="px-6 py-3 pl-10 text-slate-500">{t.stockDetail.operatingExpenses}</td><td className="px-6 py-3 text-right">$54.85B</td><td className="px-6 py-3 text-right">$51.35B</td><td className="px-6 py-3 text-right">$43.89B</td></tr>
+                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">{t.stockDetail.netIncome}</td><td className="px-6 py-3 text-right text-emerald-600">$97.00B</td><td className="px-6 py-3 text-right text-emerald-600">$99.80B</td><td className="px-6 py-3 text-right text-emerald-600">$94.68B</td></tr>
+                                <tr><td className="px-6 py-3 pl-10 text-slate-500">{t.stockDetail.basicEps}</td><td className="px-6 py-3 text-right">$6.16</td><td className="px-6 py-3 text-right">$6.15</td><td className="px-6 py-3 text-right">$5.67</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -382,7 +384,7 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
             <div className="space-y-10 animate-fade-in">
                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                        <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">Short vs Long Term Assets</h4>
+                        <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">{t.stockDetail.assetsStructure}</h4>
                         <div className="h-64">
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={[
@@ -395,14 +397,14 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                                     <YAxis fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `$${val}B`} />
                                     <Tooltip cursor={{fill: 'transparent'}} />
                                     <Legend />
-                                    <Bar dataKey="current" name="Current Assets" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={30} />
-                                    <Bar dataKey="nonCurrent" name="Non-Current Assets" fill="#1e40af" radius={[4, 4, 0, 0]} barSize={30} />
+                                    <Bar dataKey="current" name={t.stockDetail.currentAssets} fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={30} />
+                                    <Bar dataKey="nonCurrent" name={t.stockDetail.nonCurrentAssets} fill="#1e40af" radius={[4, 4, 0, 0]} barSize={30} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
                     </div>
                     <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                        <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">Debt Structure</h4>
+                        <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">{t.stockDetail.debtStructure}</h4>
                         <div className="h-64">
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={[
@@ -415,8 +417,8 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                                     <YAxis fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `$${val}B`} />
                                     <Tooltip cursor={{fill: 'transparent'}} />
                                     <Legend />
-                                    <Bar dataKey="short" name="Short Term Debt" fill="#f59e0b" radius={[4, 4, 0, 0]} barSize={30} />
-                                    <Bar dataKey="long" name="Long Term Debt" fill="#ef4444" radius={[4, 4, 0, 0]} barSize={30} />
+                                    <Bar dataKey="short" name={t.stockDetail.shortTermDebt} fill="#f59e0b" radius={[4, 4, 0, 0]} barSize={30} />
+                                    <Bar dataKey="long" name={t.stockDetail.longTermDebt} fill="#ef4444" radius={[4, 4, 0, 0]} barSize={30} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
@@ -425,24 +427,24 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
 
                 <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
                     <div className="p-6 border-b border-slate-100 bg-slate-50/50">
-                        <h3 className="font-bold text-slate-900">Balance Sheet</h3>
+                        <h3 className="font-bold text-slate-900">{t.stockDetail.balanceSheet}</h3>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
                             <thead className="bg-slate-50 text-slate-500 font-medium">
                                 <tr>
-                                    <th className="px-6 py-4">Breakdown</th>
+                                    <th className="px-6 py-4">{t.stockDetail.breakdown}</th>
                                     <th className="px-6 py-4 text-right">2023</th>
                                     <th className="px-6 py-4 text-right">2022</th>
                                     <th className="px-6 py-4 text-right">2021</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
-                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">Total Assets</td><td className="px-6 py-3 text-right">$352.58B</td><td className="px-6 py-3 text-right">$352.75B</td><td className="px-6 py-3 text-right">$351.00B</td></tr>
-                                <tr><td className="px-6 py-3 pl-10 text-slate-500">Cash & Equivalents</td><td className="px-6 py-3 text-right">$29.97B</td><td className="px-6 py-3 text-right">$23.65B</td><td className="px-6 py-3 text-right">$34.94B</td></tr>
-                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">Total Liabilities</td><td className="px-6 py-3 text-right">$290.43B</td><td className="px-6 py-3 text-right">$302.08B</td><td className="px-6 py-3 text-right">$287.91B</td></tr>
-                                <tr><td className="px-6 py-3 pl-10 text-slate-500">Total Debt</td><td className="px-6 py-3 text-right">$111.00B</td><td className="px-6 py-3 text-right">$120.00B</td><td className="px-6 py-3 text-right">$125.00B</td></tr>
-                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">Total Equity</td><td className="px-6 py-3 text-right">$62.15B</td><td className="px-6 py-3 text-right">$50.67B</td><td className="px-6 py-3 text-right">$63.09B</td></tr>
+                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">{t.stockDetail.totalAssets}</td><td className="px-6 py-3 text-right">$352.58B</td><td className="px-6 py-3 text-right">$352.75B</td><td className="px-6 py-3 text-right">$351.00B</td></tr>
+                                <tr><td className="px-6 py-3 pl-10 text-slate-500">{t.stockDetail.cashEquivalents}</td><td className="px-6 py-3 text-right">$29.97B</td><td className="px-6 py-3 text-right">$23.65B</td><td className="px-6 py-3 text-right">$34.94B</td></tr>
+                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">{t.stockDetail.totalLiabilities}</td><td className="px-6 py-3 text-right">$290.43B</td><td className="px-6 py-3 text-right">$302.08B</td><td className="px-6 py-3 text-right">$287.91B</td></tr>
+                                <tr><td className="px-6 py-3 pl-10 text-slate-500">{t.stockDetail.totalDebt}</td><td className="px-6 py-3 text-right">$111.00B</td><td className="px-6 py-3 text-right">$120.00B</td><td className="px-6 py-3 text-right">$125.00B</td></tr>
+                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">{t.stockDetail.totalEquity}</td><td className="px-6 py-3 text-right">$62.15B</td><td className="px-6 py-3 text-right">$50.67B</td><td className="px-6 py-3 text-right">$63.09B</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -455,7 +457,7 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
             <div className="space-y-10 animate-fade-in">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                        <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">Operating vs Free Cash Flow</h4>
+                        <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">{t.stockDetail.operatingVsFree}</h4>
                         <div className="h-64">
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={[
@@ -468,14 +470,14 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                                     <YAxis fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `$${val}B`} />
                                     <Tooltip cursor={{fill: 'transparent'}} />
                                     <Legend />
-                                    <Bar dataKey="operating" name="Cash from Operating" fill="#10b981" radius={[4, 4, 0, 0]} barSize={30} />
-                                    <Bar dataKey="free" name="Free Cash Flow" fill="#059669" radius={[4, 4, 0, 0]} barSize={30} />
+                                    <Bar dataKey="operating" name={t.stockDetail.cashFromOperating} fill="#10b981" radius={[4, 4, 0, 0]} barSize={30} />
+                                    <Bar dataKey="free" name={t.stockDetail.freeCashFlow} fill="#059669" radius={[4, 4, 0, 0]} barSize={30} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
                     </div>
                     <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                        <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">Investing vs Financing</h4>
+                        <h4 className="text-sm font-bold text-slate-500 uppercase mb-4">{t.stockDetail.investingVsFinancing}</h4>
                         <div className="h-64">
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={[
@@ -488,8 +490,8 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
                                     <YAxis fontSize={12} tickLine={false} axisLine={false} tickFormatter={(val) => `$${val}B`} />
                                     <Tooltip cursor={{fill: 'transparent'}} />
                                     <Legend />
-                                    <Bar dataKey="investing" name="Cash from Investing" fill="#8b5cf6" radius={[4, 4, 0, 0]} barSize={30} />
-                                    <Bar dataKey="financing" name="Cash from Financing" fill="#f59e0b" radius={[4, 4, 0, 0]} barSize={30} />
+                                    <Bar dataKey="investing" name={t.stockDetail.cashFromInvesting} fill="#8b5cf6" radius={[4, 4, 0, 0]} barSize={30} />
+                                    <Bar dataKey="financing" name={t.stockDetail.cashFromFinancing} fill="#f59e0b" radius={[4, 4, 0, 0]} barSize={30} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
@@ -498,24 +500,24 @@ const StockDetailView: React.FC<StockDetailViewProps> = ({ stock, onBack, onInve
 
                 <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
                     <div className="p-6 border-b border-slate-100 bg-slate-50/50">
-                        <h3 className="font-bold text-slate-900">Cash Flow Statement</h3>
+                        <h3 className="font-bold text-slate-900">{t.stockDetail.cashFlowStatement}</h3>
                     </div>
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
                             <thead className="bg-slate-50 text-slate-500 font-medium">
                                 <tr>
-                                    <th className="px-6 py-4">Breakdown</th>
+                                    <th className="px-6 py-4">{t.stockDetail.breakdown}</th>
                                     <th className="px-6 py-4 text-right">2023</th>
                                     <th className="px-6 py-4 text-right">2022</th>
                                     <th className="px-6 py-4 text-right">2021</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
-                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">Net Income</td><td className="px-6 py-3 text-right">$97.00B</td><td className="px-6 py-3 text-right">$99.80B</td><td className="px-6 py-3 text-right">$94.68B</td></tr>
-                                <tr><td className="px-6 py-3 pl-10 text-slate-500">Depreciation</td><td className="px-6 py-3 text-right">$11.52B</td><td className="px-6 py-3 text-right">$11.10B</td><td className="px-6 py-3 text-right">$11.28B</td></tr>
-                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">Cash from Operations</td><td className="px-6 py-3 text-right text-emerald-600">$110.54B</td><td className="px-6 py-3 text-right text-emerald-600">$122.15B</td><td className="px-6 py-3 text-right text-emerald-600">$104.04B</td></tr>
-                                <tr><td className="px-6 py-3 pl-10 text-slate-500">Cash from Investing</td><td className="px-6 py-3 text-right">$3.71B</td><td className="px-6 py-3 text-right">-$22.35B</td><td className="px-6 py-3 text-right">-$14.55B</td></tr>
-                                <tr><td className="px-6 py-3 pl-10 text-slate-500">Cash from Financing</td><td className="px-6 py-3 text-right">-$108.49B</td><td className="px-6 py-3 text-right">-$110.30B</td><td className="px-6 py-3 text-right">-$93.35B</td></tr>
+                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">{t.stockDetail.netIncome}</td><td className="px-6 py-3 text-right">$97.00B</td><td className="px-6 py-3 text-right">$99.80B</td><td className="px-6 py-3 text-right">$94.68B</td></tr>
+                                <tr><td className="px-6 py-3 pl-10 text-slate-500">{t.stockDetail.depreciation}</td><td className="px-6 py-3 text-right">$11.52B</td><td className="px-6 py-3 text-right">$11.10B</td><td className="px-6 py-3 text-right">$11.28B</td></tr>
+                                <tr className="font-bold bg-slate-50/50"><td className="px-6 py-3">{t.stockDetail.cashFromOperations}</td><td className="px-6 py-3 text-right text-emerald-600">$110.54B</td><td className="px-6 py-3 text-right text-emerald-600">$122.15B</td><td className="px-6 py-3 text-right text-emerald-600">$104.04B</td></tr>
+                                <tr><td className="px-6 py-3 pl-10 text-slate-500">{t.stockDetail.cashFromInvesting}</td><td className="px-6 py-3 text-right">$3.71B</td><td className="px-6 py-3 text-right">-$22.35B</td><td className="px-6 py-3 text-right">-$14.55B</td></tr>
+                                <tr><td className="px-6 py-3 pl-10 text-slate-500">{t.stockDetail.cashFromFinancing}</td><td className="px-6 py-3 text-right">-$108.49B</td><td className="px-6 py-3 text-right">-$110.30B</td><td className="px-6 py-3 text-right">-$93.35B</td></tr>
                             </tbody>
                         </table>
                     </div>
