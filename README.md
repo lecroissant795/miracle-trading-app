@@ -42,7 +42,7 @@ The app requires a Gemini API key to function.
 1. Create a file named `.env.local` in the root directory.
 2. Add your API key to the file:
    ```env
-   API_KEY=your_gemini_api_key_here
+   GEMINNI_API_KEY=your_gemini_api_key_here
    ```
 
 ### 4. Run the development server
