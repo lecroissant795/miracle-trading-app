@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, ArrowLeftRight, LineChart, Wallet, GraduationCap, Users, Phone, ChevronDown, ChevronRight, PieChart, Settings, ChevronsLeft, ChevronsRight } from 'lucide-react';
+import { Home, ArrowLeftRight, LineChart, Wallet, GraduationCap, Users, ChevronDown, ChevronRight, PieChart, Settings, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import Logo from './Logo';
 import { useTranslation } from '../services/LanguageContext';
 
@@ -106,24 +106,6 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, currentCategory, onChang
             onClick={() => onChangeView('COMMUNITY')}
             collapsed={collapsed}
           /> */}
-        </div>
-
-        <div>
-          <p className={`px-4 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 ${collapsed ? 'hidden' : ''}`}>{t.sidebar.support}</p>
-          {/* <MenuItem 
-            icon={Users} 
-            label="Community" 
-            active={currentView === 'COMMUNITY'}
-            onClick={() => onChangeView('COMMUNITY')}
-            collapsed={collapsed}
-          /> */}
-          <MenuItem 
-            icon={Phone} 
-            label={t.sidebar.helpSupport} 
-            active={currentView === 'SUPPORT'}
-            onClick={() => onChangeView('SUPPORT')}
-            collapsed={collapsed}
-          />
         </div>
       </nav>
 

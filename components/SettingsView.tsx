@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { 
   User, Shield, Bell, Globe, Camera, Check, Lock, Mail, Smartphone, 
-  AlertCircle, CheckCircle, Key, Wallet, FileText, Share2, Gift, 
-  MessageSquare, Lightbulb, BookOpen, Trash2, MapPin, ChevronRight
+  AlertCircle, CheckCircle, Wallet, FileText, Share2, Gift,
+  MessageSquare, Lightbulb, Trash2, MapPin
 } from 'lucide-react';
 import Card from './Card';
 import Button from './Button';
@@ -16,22 +16,20 @@ interface SettingsViewProps {
   onWithdraw: (amount: number) => void;
 }
 
-type SettingsTab = 
-  | 'PERSONAL' 
-  | 'WALLETS' 
-  | 'CONTACT' 
-  | 'NOTIFICATIONS' 
-  | 'SECURITY' 
-  | 'REFERRAL' 
-  | 'GIFT' 
-  | 'MESSAGE' 
-  | 'FEATURE' 
-  | 'BASICS' 
-  | 'LEGAL' 
+type SettingsTab =
+  | 'PROFILE'
+  | 'WALLETS'
+  | 'NOTIFICATIONS'
+  | 'SECURITY'
+  | 'REFERRAL'
+  | 'GIFT'
+  | 'MESSAGE'
+  | 'FEATURE'
+  | 'LEGAL'
   | 'CLOSE_ACCOUNT';
 
 const SettingsView: React.FC<SettingsViewProps> = ({ portfolio, onDeposit, onWithdraw }) => {
-  const [activeTab, setActiveTab] = useState<SettingsTab>('PERSONAL');
+  const [activeTab, setActiveTab] = useState<SettingsTab>('PROFILE');
   const [user, setUser] = useState({
     name: 'Barnabas Inyangsam',
     email: 'barnabas@tradepro.com',
@@ -44,27 +42,26 @@ const SettingsView: React.FC<SettingsViewProps> = ({ portfolio, onDeposit, onWit
   });
 
   const tabs: { id: SettingsTab; label: string; icon: any }[] = [
-    { id: 'PERSONAL', label: 'Personal Details', icon: User },
+    { id: 'PROFILE', label: 'Profile', icon: User },
     { id: 'WALLETS', label: 'Cards and Bank Accounts', icon: Wallet },
-    { id: 'CONTACT', label: 'Contact Details', icon: Mail },
     { id: 'NOTIFICATIONS', label: 'Notifications Settings', icon: Bell },
     { id: 'SECURITY', label: 'Security', icon: Shield },
     { id: 'REFERRAL', label: 'Refer to a friend', icon: Share2 },
     { id: 'GIFT', label: 'Buy or Redeem a Gift', icon: Gift },
     { id: 'MESSAGE', label: 'Send us a message', icon: MessageSquare },
     { id: 'FEATURE', label: 'Request a feature', icon: Lightbulb },
-    { id: 'BASICS', label: 'Learn the basics', icon: BookOpen },
     { id: 'LEGAL', label: 'Legal Information', icon: FileText },
     { id: 'CLOSE_ACCOUNT', label: 'Close my account', icon: AlertCircle },
   ];
 
-  const renderPersonalDetails = () => (
+  const renderProfile = () => (
     <div className="space-y-8 animate-fade-in">
+      {/* Profile Photo Section */}
       <div className="flex items-center gap-6">
         <div className="relative group cursor-pointer">
-          <img 
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" 
-            alt="Profile" 
+          <img
+            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+            alt="Profile"
             className="w-24 h-24 rounded-full object-cover ring-4 ring-slate-100"
           />
           <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -81,77 +78,80 @@ const SettingsView: React.FC<SettingsViewProps> = ({ portfolio, onDeposit, onWit
         </div>
       </div>
 
-      <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-xs font-bold text-slate-500 uppercase">Full Name</label>
-          <input 
-            type="text" 
-            value={user.name}
-            onChange={(e) => setUser({...user, name: e.target.value})}
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-medium text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none"
-          />
-        </div>
-        <div className="space-y-2 md:col-span-2">
-          <label className="text-xs font-bold text-slate-500 uppercase">Bio</label>
-          <textarea 
-            value={user.bio}
-            onChange={(e) => setUser({...user, bio: e.target.value})}
-            rows={3}
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-medium text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none resize-none"
-          />
-        </div>
-        <div className="md:col-span-2 pt-4 flex justify-end">
-          <Button>Save Changes</Button>
-        </div>
-      </form>
+      {/* Personal Information Section */}
+      <div>
+        <h3 className="text-lg font-bold text-slate-900 mb-4">Personal Information</h3>
+        <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-500 uppercase">Full Name</label>
+            <input
+              type="text"
+              value={user.name}
+              onChange={(e) => setUser({...user, name: e.target.value})}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-medium text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none"
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className="text-xs font-bold text-slate-500 uppercase">Bio</label>
+            <textarea
+              value={user.bio}
+              onChange={(e) => setUser({...user, bio: e.target.value})}
+              rows={3}
+              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 font-medium text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+            />
+          </div>
+        </form>
+      </div>
+
+      {/* Contact Information Section */}
+      <div>
+        <h3 className="text-lg font-bold text-slate-900 mb-4">Contact Information</h3>
+        <form className="grid grid-cols-1 gap-6">
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-500 uppercase">Email Address</label>
+            <div className="relative">
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <input
+                type="email"
+                value={user.email}
+                onChange={(e) => setUser({...user, email: e.target.value})}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 font-medium text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-500 uppercase">Phone Number</label>
+            <div className="relative">
+              <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+              <input
+                type="tel"
+                value={user.phone}
+                onChange={(e) => setUser({...user, phone: e.target.value})}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 font-medium text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <label className="text-xs font-bold text-slate-500 uppercase">Physical Address</label>
+            <div className="relative">
+              <MapPin className="absolute left-4 top-4 text-slate-400" size={18} />
+              <textarea
+                value={user.address}
+                onChange={(e) => setUser({...user, address: e.target.value})}
+                rows={2}
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 font-medium text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none resize-none"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div className="pt-4 flex justify-end">
+        <Button>Save Changes</Button>
+      </div>
     </div>
   );
 
-  const renderContactDetails = () => (
-    <div className="space-y-6 animate-fade-in">
-      <form className="grid grid-cols-1 gap-6">
-        <div className="space-y-2">
-          <label className="text-xs font-bold text-slate-500 uppercase">Email Address</label>
-          <div className="relative">
-            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-            <input 
-              type="email" 
-              value={user.email}
-              onChange={(e) => setUser({...user, email: e.target.value})}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 font-medium text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none"
-            />
-          </div>
-        </div>
-        <div className="space-y-2">
-          <label className="text-xs font-bold text-slate-500 uppercase">Phone Number</label>
-          <div className="relative">
-            <Smartphone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-            <input 
-              type="tel" 
-              value={user.phone}
-              onChange={(e) => setUser({...user, phone: e.target.value})}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 font-medium text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none"
-            />
-          </div>
-        </div>
-        <div className="space-y-2">
-          <label className="text-xs font-bold text-slate-500 uppercase">Physical Address</label>
-          <div className="relative">
-            <MapPin className="absolute left-4 top-4 text-slate-400" size={18} />
-            <textarea 
-              value={user.address}
-              onChange={(e) => setUser({...user, address: e.target.value})}
-              rows={2}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-11 pr-4 py-3 font-medium text-slate-900 focus:ring-2 focus:ring-blue-500 outline-none resize-none"
-            />
-          </div>
-        </div>
-        <div className="pt-4 flex justify-end">
-          <Button>Update Contact Info</Button>
-        </div>
-      </form>
-    </div>
-  );
 
   const renderReferral = () => (
     <div className="space-y-8 animate-fade-in">
@@ -261,32 +261,6 @@ const SettingsView: React.FC<SettingsViewProps> = ({ portfolio, onDeposit, onWit
     </div>
   );
 
-  const renderBasics = () => (
-    <div className="space-y-4 animate-fade-in">
-      {[
-        { title: 'Getting Started with Trading', duration: '5 min read', icon: BookOpen },
-        { title: 'Understanding Market Orders', duration: '3 min read', icon: FileText },
-        { title: 'How to Secure Your Account', duration: '4 min read', icon: Shield },
-        { title: 'Managing Your Portfolio Pies', duration: '6 min read', icon: Wallet }
-      ].map((item, i) => (
-        <div key={i} className="flex items-center justify-between p-5 border border-slate-100 rounded-2xl hover:bg-slate-50 transition-colors cursor-pointer group">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
-              <item.icon size={20} />
-            </div>
-            <div>
-              <h4 className="font-bold text-slate-900">{item.title}</h4>
-              <p className="text-xs text-slate-500">{item.duration}</p>
-            </div>
-          </div>
-          <ChevronRight size={18} className="text-slate-300 group-hover:text-slate-600 transition-colors" />
-        </div>
-      ))}
-      <div className="pt-4">
-        <Button variant="outline" className="w-full">Visit Help Center</Button>
-      </div>
-    </div>
-  );
 
   const renderLegal = () => (
     <div className="space-y-4 animate-fade-in">
@@ -369,23 +343,6 @@ const SettingsView: React.FC<SettingsViewProps> = ({ portfolio, onDeposit, onWit
                 </div>
             </div>
          </Card>
-      </div>
-
-      {/* Account Recovery */}
-      <div>
-        <h3 className="font-bold text-slate-900 mb-4">Account Recovery</h3>
-        <Card className="border-orange-100 bg-orange-50/30">
-             <div className="flex items-start gap-4">
-                <div className="p-3 bg-orange-100 text-orange-600 rounded-xl">
-                    <Key size={24} />
-                </div>
-                <div className="flex-1">
-                    <h3 className="font-bold text-slate-900 mb-1">Recovery Key</h3>
-                    <p className="text-sm text-slate-500 mb-4">A recovery key provides access to your account if you lose your password and second factor devices. Keep it safe.</p>
-                    <Button variant="outline" className="border-orange-200 text-orange-700 hover:bg-orange-50">Generate New Key</Button>
-                </div>
-             </div>
-        </Card>
       </div>
 
       {/* Password */}
@@ -480,15 +437,13 @@ const SettingsView: React.FC<SettingsViewProps> = ({ portfolio, onDeposit, onWit
                     <p className="text-slate-500">Update your {tabs.find(t => t.id === activeTab)?.label.toLowerCase()} details here.</p>
                 </div>
                 
-                {activeTab === 'PERSONAL' && renderPersonalDetails()}
-                {activeTab === 'CONTACT' && renderContactDetails()}
+                {activeTab === 'PROFILE' && renderProfile()}
                 {activeTab === 'SECURITY' && renderSecurity()}
                 {activeTab === 'NOTIFICATIONS' && renderNotifications()}
                 {activeTab === 'REFERRAL' && renderReferral()}
                 {activeTab === 'GIFT' && renderGift()}
                 {activeTab === 'MESSAGE' && renderMessage()}
                 {activeTab === 'FEATURE' && renderFeature()}
-                {activeTab === 'BASICS' && renderBasics()}
                 {activeTab === 'LEGAL' && renderLegal()}
                 {activeTab === 'CLOSE_ACCOUNT' && renderCloseAccount()}
                 </div>

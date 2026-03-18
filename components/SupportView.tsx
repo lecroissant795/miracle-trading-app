@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, MessageCircle, Mail, Phone, ChevronDown, ChevronUp, User, CreditCard, Shield, TrendingUp, FileText, ExternalLink, HelpCircle } from 'lucide-react';
+import { Search, MessageCircle, Mail, ChevronDown, ChevronUp, User, CreditCard, Shield, TrendingUp, FileText, ExternalLink, HelpCircle } from 'lucide-react';
 import Button from './Button';
 import Card from './Card';
 import { useTranslation } from '../services/LanguageContext';
@@ -138,9 +138,6 @@ const SupportView: React.FC = () => {
              <div className="space-y-3">
                <button className="w-full bg-white text-blue-700 py-3 rounded-xl font-bold hover:bg-blue-50 transition-colors flex items-center justify-center gap-2 shadow-lg">
                  <MessageCircle size={18} /> {t.support.startChat}
-               </button>
-               <button className="w-full bg-blue-800/50 text-white py-3 rounded-xl font-semibold hover:bg-blue-800 transition-colors flex items-center justify-center gap-2 border border-blue-500/30">
-                 <Phone size={18} /> {t.support.requestCall}
                </button>
                <button className="w-full bg-blue-800/50 text-white py-3 rounded-xl font-semibold hover:bg-blue-800 transition-colors flex items-center justify-center gap-2 border border-blue-500/30">
                  <Mail size={18} /> {t.support.emailSupport}
