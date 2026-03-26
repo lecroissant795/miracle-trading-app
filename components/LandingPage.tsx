@@ -404,56 +404,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
           </div>
         </Section>
       </section>
-
-      {/* ─── Security Section ─────────────────────────────────────── */}
-      <section className="py-16 px-6 bg-slate-50">
-        <Section className="max-w-6xl mx-auto">
-          <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 px-8 py-10 md:px-14 md:py-16 text-slate-50">
-            <div className="pointer-events-none absolute -top-24 -right-16 h-56 w-56 rounded-full bg-blue-500/25 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -left-10 h-56 w-56 rounded-full bg-emerald-400/15 blur-3xl" />
-
-            <div className="grid gap-12 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1.2fr)] items-center">
-              <div>
-                <div className="inline-flex items-center gap-2 rounded-full bg-white/8 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-blue-200 border border-white/10 mb-5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> {t.landing.securityFirst}
-                </div>
-                <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">{t.landing.securityGuaranteed}</h2>
-                <p className="text-sm md:text-base text-slate-200/80 max-w-xl mb-8 leading-relaxed">{t.landing.securityTrust}</p>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-left text-xs md:text-sm">
-                  {[
-                    { label: t.landing.uptime, value: '99.99%', sub: t.landing.monitored },
-                    { label: t.landing.storage, value: t.landing.offline, sub: t.landing.coldWallet },
-                    { label: t.landing.compliance, value: t.landing.soc2, sub: t.landing.audits },
-                  ].map(stat => (
-                    <div key={stat.label} className="rounded-2xl bg-white/5 px-4 py-3 border border-white/10">
-                      <div className="text-[11px] uppercase tracking-wide text-slate-300/80 mb-1">{stat.label}</div>
-                      <div className="text-lg font-semibold text-white">{stat.value}</div>
-                      <div className="text-[11px] text-slate-300 mt-1">{stat.sub}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                {[
-                  { icon: <Lock size={22} />, color: 'bg-emerald-400/10 text-emerald-300', title: t.landing.multiLayer, desc: t.landing.multiLayerDesc },
-                  { icon: <ShieldCheck size={22} />, color: 'bg-blue-400/10 text-blue-200', title: t.landing.encryption, desc: t.landing.encryptionDesc },
-                  { icon: <Globe size={22} />, color: 'bg-indigo-400/10 text-indigo-200', title: t.landing.safeguards, desc: t.landing.safeguardsDesc },
-                ].map((card, i) => (
-                  <motion.div key={i} whileHover={{ x: 4 }} className="rounded-2xl bg-white/5 border border-white/10 p-5 backdrop-blur-sm flex gap-4 transition-colors hover:bg-white/8">
-                    <div className={`mt-1 flex h-11 w-11 items-center justify-center rounded-xl ${card.color} flex-shrink-0`}>{card.icon}</div>
-                    <div>
-                      <h3 className="text-sm font-semibold text-white mb-1">{card.title}</h3>
-                      <p className="text-xs text-slate-200/85 leading-relaxed">{card.desc}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Section>
-      </section>
-
+      
       {/* ─── FAQ Section ─────────────────────────────────────────── */}
       <section className="py-24 px-6 bg-white">
         <Section className="max-w-6xl mx-auto">
