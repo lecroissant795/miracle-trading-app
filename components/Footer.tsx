@@ -49,9 +49,9 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, isLoggedIn }) => {
           <div className="md:col-span-2 space-y-4">
             <h4 className="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">{t.footer.platform}</h4>
             <ul className="space-y-2 text-sm text-slate-500">
-              <li><button onClick={() => onNavigate('LANDING')} className="hover:text-slate-50 transition-colors text-left">{t.nav.home}</button></li>
-              <li><button onClick={() => onNavigate(isLoggedIn ? 'DASHBOARD' : 'MARKET_EXPLORER')} className="hover:text-slate-50 transition-colors text-left">{t.nav.market}</button></li>
-              <li><button onClick={() => onNavigate('PORTFOLIO')} className="hover:text-slate-50 transition-colors text-left">{t.nav.portfolio}</button></li>
+              <li><button onClick={() => onNavigate('LANDING')} className="hover:text-slate-300 transition-colors text-left">{t.nav.home}</button></li>
+              <li><button onClick={() => onNavigate(isLoggedIn ? 'DASHBOARD' : 'MARKET_EXPLORER')} className="hover:text-slate-300 transition-colors text-left">{t.nav.market}</button></li>
+              <li><button onClick={() => onNavigate('PORTFOLIO')} className="hover:text-slate-300 transition-colors text-left">{t.nav.portfolio}</button></li>
             </ul>
           </div>
 
@@ -59,9 +59,9 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, isLoggedIn }) => {
           <div className="md:col-span-2 space-y-4">
             <h4 className="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">{t.footer.information}</h4>
             <ul className="space-y-2 text-sm text-slate-500">
-              <li><button className="hover:text-slate-50 transition-colors text-left">{t.footer.aboutUs}</button></li>
-              <li><button className="hover:text-slate-50 transition-colors text-left">{t.footer.howItWorks}</button></li>
-              <li><button onClick={() => onNavigate('SUPPORT_PUBLIC')} className="hover:text-slate-50 transition-colors text-left">{t.footer.supportCenter}</button></li>
+              <li><button className="hover:text-slate-300 transition-colors text-left">{t.footer.aboutUs}</button></li>
+              <li><button className="hover:text-slate-300 transition-colors text-left">{t.footer.howItWorks}</button></li>
+              <li><button onClick={() => onNavigate('SUPPORT_PUBLIC')} className="hover:text-slate-300 transition-colors text-left">{t.footer.supportCenter}</button></li>
             </ul>
           </div>
 
@@ -69,8 +69,8 @@ const Footer: React.FC<FooterProps> = ({ onNavigate, isLoggedIn }) => {
           <div className="md:col-span-2 space-y-4">
             <h4 className="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">{t.footer.legal}</h4>
             <ul className="space-y-2 text-sm text-slate-500">
-              <li><button className="hover:text-slate-50 transition-colors text-left">{t.footer.terms}</button></li>
-              <li><button className="hover:text-slate-50 transition-colors text-left">{t.footer.privacy}</button></li>
+              <li><button className="hover:text-slate-300 transition-colors text-left">{t.footer.terms}</button></li>
+              <li><button className="hover:text-slate-300 transition-colors text-left">{t.footer.privacy}</button></li>
             </ul>
           </div>
 
