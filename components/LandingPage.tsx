@@ -156,7 +156,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
 
             <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start pt-2">
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-                <Button onClick={() => onNavigate('AUTH', 'SIGNUP')} className="px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-base shadow-xl shadow-blue-200/60 w-full sm:w-auto h-auto">
+                <Button size="lg" onClick={() => onNavigate('AUTH', 'SIGNUP')} className="px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-base shadow-xl shadow-blue-200/60 w-full sm:w-auto h-auto">
                   {t.hero.getStarted}
                 </Button>
               </motion.div>
@@ -164,7 +164,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => onNavigate('MARKET_EXPLORER')}
-                className="px-8 py-4 rounded-xl bg-white border-2 border-blue-600 text-blue-600 font-bold text-base hover:bg-blue-50 transition-colors w-full sm:w-auto"
+                className="px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-base shadow-xl shadow-blue-200/60 w-full sm:w-auto h-auto"
               >
                 {t.hero.demo}
               </motion.button>
