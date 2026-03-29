@@ -354,15 +354,11 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-              <Button onClick={() => onNavigate('MARKET_EXPLORER')} className="px-8 py-3.5 rounded-full bg-blue-600 text-white font-bold">{t.landing.seeDataCoverage}</Button>
+              <Button size="lg" onClick={() => onNavigate('MARKET_EXPLORER')} className="px-8 py-3.5 rounded-full bg-blue-600 text-white font-bold">{t.landing.seeDataCoverage}</Button>
             </motion.div>
-            <motion.button
-              whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-              onClick={() => onNavigate('MARKET_EXPLORER')}
-              className="px-8 py-3.5 rounded-full border-2 border-blue-600 text-blue-600 font-bold hover:bg-blue-50 transition-colors"
-            >
-              {t.landing.tryLiveDemo}
-            </motion.button>
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
+              <Button size="lg" onClick={() => onNavigate('MARKET_EXPLORER')} className="px-8 py-3.5 rounded-full bg-blue-600 text-white font-bold">{t.landing.tryLiveDemo}</Button>
+            </motion.div>
           </div>
         </Section>
       </section>
