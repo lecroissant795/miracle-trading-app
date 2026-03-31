@@ -352,12 +352,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate, isLoggedIn }) => 
               </Section>
             ))}
           </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-              <Button size="lg" onClick={() => onNavigate('MARKET_EXPLORER')} className="px-8 py-3.5 rounded-full bg-blue-600 text-white font-bold">{t.landing.seeDataCoverage}</Button>
+          <div className="grid max-w-3xl mx-auto grid-cols-1 sm:grid-cols-2 gap-4 justify-center">
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="flex justify-center sm:justify-end">
+              <Button size="lg" onClick={() => onNavigate('MARKET_EXPLORER')} className="w-full sm:w-[220px] px-8 py-3.5 rounded-full bg-blue-600 text-white font-bold text-center">
+                {t.landing.seeDataCoverage}
+              </Button>
             </motion.div>
-            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-              <Button size="lg" onClick={() => onNavigate('MARKET_EXPLORER')} className="px-8 py-3.5 rounded-full bg-blue-600 text-white font-bold">{t.landing.tryLiveDemo}</Button>
+            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="flex justify-center sm:justify-start">
+              <Button size="lg" onClick={() => onNavigate('MARKET_EXPLORER')} className="w-full sm:w-[220px] px-8 py-3.5 rounded-full bg-blue-600 text-white font-bold text-center">
+                {t.landing.tryLiveDemo}
+              </Button>
             </motion.div>
           </div>
         </Section>
